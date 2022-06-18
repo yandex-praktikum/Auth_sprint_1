@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  
+  auth:
+    build:
+      context: ./auth_api
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=content
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+
+  db:
+    image: postgres:13.0-alpine
+    restart: always
+    volumes:
+      - .db/data:/var/lib/postgresql/data 
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=content
+
+  redis:
+    image: redis:6.0
+    ports:
+      - 6379:6379
