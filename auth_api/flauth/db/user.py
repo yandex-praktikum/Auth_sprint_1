@@ -1,3 +1,5 @@
+from sqlalchemy.exc import IntegrityError
+
 from db.db_models import User
 from db.db import db
 
@@ -8,6 +10,10 @@ def get_user(login: str):
 
 
 def post_user(user: dict):
-    user = User(**user)
-    db.session.add(user)
-    db.session.commit()
+    try:
+        user = User(**user)
+        db.session.add(user)
+        db.session.commit()
+    except IntegrityError:
+        return None
+    return 'OK'

@@ -11,6 +11,8 @@ POSTGRES_PORT = os.environ['POSTGRES_PORT']
 
 POSTGRES_DB = os.environ['POSTGRES_DB']
 
+SECRET_KEY = os.environ['SECRET_KEY']
+
 
 if __name__ == '__main__':
     db_url = 'postgresql://' + POSTGRES_USER + ':' + POSTGRES_PASSWORD + \
@@ -18,7 +20,7 @@ if __name__ == '__main__':
 
     app = create_app()
 
-    app.config['SECRET_KEY'] = 'secret-key-goes-here'
+    app.config['SECRET_KEY'] = SECRET_KEY
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     app.app_context().push()
 
