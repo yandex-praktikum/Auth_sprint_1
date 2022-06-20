@@ -1,0 +1,102 @@
+[
+  {
+    "uuid":"2a090dde-f688-46fe-a9f4-b781a985275e",
+    "title":"Star Wars: Knights of the Old Republic",
+    "imdb_rating":9.6
+  },
+  {
+    "uuid":"7f28af8a-c629-4af0-b87b-39368a5b8464",
+    "title":"Phantasy Star IV: The End of the Millennium",
+    "imdb_rating":9.0
+  },
+  {
+    "uuid":"40f515ab-e69e-481c-aac3-ebf3b3833253",
+    "title":"Star Wars: Knights of the Old Republic II - The Sith Lords",
+    "imdb_rating":8.9
+  },
+  {
+    "uuid":"e5a21648-59b1-4672-ac3b-867bcd64b6ea",
+    "title":"Star Wars Jedi: Fallen Order",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"ce5f678a-0ba5-44be-840a-0c362236ce4b",
+    "title":"Star Ocean: The Second Story",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"0312ed51-8833-413f-bff5-0e139c11264a",
+    "title":"Star Wars: Episode V - The Empire Strikes Back",
+    "imdb_rating":8.7
+  },
+  {
+    "uuid":"3aba7aa0-8930-417c-bf78-3df596c3f062",
+    "title":"Star Wars: The Old Republic",
+    "imdb_rating":8.7
+  },
+  {
+    "uuid":"96198bec-04bf-4ac7-9538-cbf40d1e25db",
+    "title":"Star Wars: The Old Republic - Knights of the Fallen Empire",
+    "imdb_rating":8.7
+  },
+  {
+    "uuid":"a58961cb-0b46-49f5-8a59-20b0118f57b4",
+    "title":"Phantasy Star Online Episode I & II",
+    "imdb_rating":8.7
+  },
+  {
+    "uuid":"7dc44185-c268-476d-8b0e-488a091c1d4b",
+    "title":"Star Wars: Jedi Knight II - Jedi Outcast",
+    "imdb_rating":8.6
+  },
+  {
+    "uuid":"3d825f60-9fff-4dfe-b294-1a45fa1e115d",
+    "title":"Star Wars: Episode IV - A New Hope",
+    "imdb_rating":8.6
+  },
+  {
+    "uuid":"c4d36327-b330-4506-a63d-fef69d3f2f8a",
+    "title":"Star Wars: Jedi Knight - Jedi Academy",
+    "imdb_rating":8.5
+  },
+  {
+    "uuid":"9402098b-9a43-459b-85dd-2617813955b8",
+    "title":"Star Wars: The Old Republic - Shadow of Revan",
+    "imdb_rating":8.4
+  },
+  {
+    "uuid":"025c58cd-1b7e-43be-9ffb-8571a613579b",
+    "title":"Star Wars: Episode VI - Return of the Jedi",
+    "imdb_rating":8.3
+  },
+  {
+    "uuid":"11a73cea-3122-427a-bad9-81d8a19a2a9b",
+    "title":"Star Fox 64 3D",
+    "imdb_rating":8.3
+  },
+  {
+    "uuid":"5a5603b2-afb5-42f5-8235-bb75b2cd9edd",
+    "title":"My Love from Another Star",
+    "imdb_rating":8.3
+  },
+  {
+    "uuid":"e1433ed9-03d7-4cc3-8f89-5d8f2249ab51",
+    "title":"Star Ocean",
+    "imdb_rating":8.2
+  },
+  {
+    "uuid":"b503ced6-fff1-493a-ad41-73449b55ffee",
+    "title":"Star Wars: The Clone Wars",
+    "imdb_rating":8.2
+  },
+  {
+    "uuid":"248041f8-8c65-4539-b684-e8f4cd01d10f",
+    "title":"Star Fox",
+    "imdb_rating":8.1
+  },
+  {
+    "uuid":"991d143e-1342-4f7c-abf0-a9ede3abba20",
+    "title":"Star Wars: The Force Unleashed - Ultimate Sith Edition",
+    "imdb_rating":8.1
+  }
+]

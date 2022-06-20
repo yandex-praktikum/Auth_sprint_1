@@ -1,0 +1,42 @@
+[
+    {
+      "uuid": "e03ce6e9-bfde-4e25-a084-9f7dec951fd8",
+      "full_name": "Seth Morris",
+      "role": [
+        "writer"
+      ],
+      "film_ids": [
+        "2d94a1e5-d216-452b-88ea-b62e76d0bc4b"
+      ]
+    },
+    {
+      "uuid": "abe59042-e4c2-4307-a6b6-8b58ea8f9c51",
+      "full_name": "Kirk Morris",
+      "role": [
+        "actor"
+      ],
+      "film_ids": [
+        "661d8ee3-1b19-48a1-98b4-b3873907dd1b"
+      ]
+    },
+    {
+      "uuid": "6b11be39-b59c-4a94-8547-c2be084ff1f3",
+      "full_name": "Ted Morris",
+      "role": [
+        "director"
+      ],
+      "film_ids": [
+        "eed327be-1d0d-4adf-8391-8c8491747f59"
+      ]
+    },
+    {
+      "uuid": "b91b08e8-7d1a-492c-9b93-45dcd6ed563b",
+      "full_name": "Larry Morris",
+      "role": [
+        "writer"
+      ],
+      "film_ids": [
+        "4c1e520f-c446-4710-bdc6-36ae960c8c9d"
+      ]
+    }
+]

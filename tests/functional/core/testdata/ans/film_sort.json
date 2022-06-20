@@ -1,0 +1,101 @@
+[
+  {
+    "uuid":"2a090dde-f688-46fe-a9f4-b781a985275e",
+    "title":"Star Wars: Knights of the Old Republic",
+    "imdb_rating":9.6
+  },
+  {
+    "uuid":"c241874f-53d3-411a-8894-37c19d8bf010",
+    "title":"Star Wars SC 38 Reimagined",
+    "imdb_rating":9.5
+  },
+  {
+    "uuid":"05d7341e-e367-4e2e-acf5-4652a8435f93",
+    "title":"The Secret World of Jeffree Star",
+    "imdb_rating":9.5
+  },
+  {
+    "uuid":"c49c1df9-6d06-47b7-87db-d96190901fa4",
+    "title":"Ringo Rocket Star and His Song for Yuri Gagarin",
+    "imdb_rating":9.4
+  },
+  {
+    "uuid":"8629bada-6df6-417c-b7bb-2e5a604be798",
+    "title":"Rifftrax: The Star Wars Holiday Special",
+    "imdb_rating":9.2
+  },
+  {
+    "uuid":"c71db79a-6978-46da-9b89-43a92ebfceac",
+    "title":"Kirby Super Star",
+    "imdb_rating":9.2
+  },
+  {
+    "uuid":"0d5e1522-cc03-454b-b501-085348206b81",
+    "title":"All-Star Party for Carol Burnett",
+    "imdb_rating":9.2
+  },
+  {
+    "uuid":"2e5561a2-bb7f-48d3-8249-fb668db6014a",
+    "title":"Lunar: The Silver Star",
+    "imdb_rating":9.2
+  },
+  {
+    "uuid":"833b1926-ef16-49a1-b41d-eddd618a036e",
+    "title":"Double Digits: The Story of a Neighborhood Movie Star",
+    "imdb_rating":9.1
+  },
+  {
+    "uuid":"3e5351d6-4e4a-486b-8529-977672177a07",
+    "title":"Star Control 2",
+    "imdb_rating":9.1
+  },
+  {
+    "uuid":"7f28af8a-c629-4af0-b87b-39368a5b8464",
+    "title":"Phantasy Star IV: The End of the Millennium",
+    "imdb_rating":9.0},
+  {
+    "uuid":"a88cbbeb-b998-4ca6-aeff-501463dcdaa0",
+    "title":"Cory in the House: All Star Edition",
+    "imdb_rating":9.0
+  },
+  {
+    "uuid":"ee1baa06-a221-4d8c-8678-992e8e84c5c1",
+    "title":"Dr. T, Lone Star Vet",
+    "imdb_rating":8.9
+  },
+  {
+    "uuid":"40f515ab-e69e-481c-aac3-ebf3b3833253",
+    "title":"Star Wars: Knights of the Old Republic II - The Sith Lords",
+    "imdb_rating":8.9
+  },
+  {
+    "uuid":"f061235e-779f-4a59-9eaa-fc533c3c0584",
+    "title":"Star Wars: Battlefront II",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"53d660a1-be2b-4b53-9761-0a315a693789",
+    "title":"Kinect Star Wars: Duel",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"e5a21648-59b1-4672-ac3b-867bcd64b6ea",
+    "title":"Star Wars Jedi: Fallen Order",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"4ab2508c-7d24-460a-87b5-ff9f200e7240",
+    "title":"Star Wars: TIE Fighter",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"ce5f678a-0ba5-44be-840a-0c362236ce4b",
+    "title":"Star Ocean: The Second Story",
+    "imdb_rating":8.8
+  },
+  {
+    "uuid":"b16d59f7-a386-467b-bea3-35e7ffbba902",
+    "title":"Star Tech",
+    "imdb_rating":8.8
+  }
+]
