@@ -1,10 +1,15 @@
 from flask import Blueprint, render_template
-from flask import request, redirect, url_for, flash
-from flask import Response
+from flask import request
+from flask import flash
+from flask import jsonify
+
 from http import HTTPStatus
 
 from db.user import get_user, post_user
+from db.auth import post_auth_record
+
 from utils.password import hash_password, verify_password
+from utils.jwt_tocken import get_access_token, get_refresh_token
 
 
 auth = Blueprint('auth', __name__)
@@ -19,18 +24,30 @@ def login():
 def login_post():
     login = request.form.get('login')
     password = request.form.get('password')
-    user_agent = request.user_agent.string
 
     user = get_user(login)
     if not user:
         flash('Login does not exist')
-        Response('Login does not exist', HTTPStatus.BAD_REQUEST)
-        return redirect(url_for('auth.login'))
+        return jsonify('Login does not exist'), HTTPStatus.BAD_REQUEST
 
     if not verify_password(password, user.hash_password):
         flash('Wrong password')
-        Response('Wrong password', HTTPStatus.UNAUTHORIZED)
-        return redirect(url_for('auth.login'))
+        return jsonify('Wrong password'), HTTPStatus.UNAUTHORIZED
+
+    auth_dict = {
+        'user_id': user.id,
+        'user_agent': request.user_agent.string
+    }
+
+    post = post_auth_record(auth_dict)
+    if not post:
+        flash('Recording auth problem')
+        return jsonify('Recording auth problem'), HTTPStatus.BAD_REQUEST
+
+    access_token = get_access_token(user)
+    refresh_token = get_refresh_token(user)
+    return jsonify(access_token=access_token, refresh_token=refresh_token), \
+        HTTPStatus.OK
 
 
 @auth.route('/signup')
@@ -50,23 +67,21 @@ def signup_post():
     user = get_user(user_dict['login'])
     if user:
         flash('Login already exists')
-        Response('Login already exists', HTTPStatus.CONFLICT)
-        return redirect(url_for('auth.signup'))
+        return jsonify('Login already exists'), HTTPStatus.CONFLICT
 
     post = post_user(user_dict)
     if not post:
         flash('E-mail already exists')
-        Response('E-mail already exists', HTTPStatus.CONFLICT)
-        return redirect(url_for('auth.signup'))
+        return jsonify('E-mail already exists'), HTTPStatus.CONFLICT
 
-    flash('E-mail already exists')
-    Response('Successful registration', HTTPStatus.OK)
-    return redirect(url_for('auth.login'))
+    flash('Successful registration')
+    return jsonify('Successful registration'), HTTPStatus.CREATED
 
 
 @auth.route('/logout')
 def logout():
     return 'logout'
+
 
 """
 @auth.route('/login', methods=['POST'])

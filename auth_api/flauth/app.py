@@ -1,8 +1,6 @@
 from flask import Flask
 
-
 from pages.auth import auth
-
 from pages.main import main
 
 

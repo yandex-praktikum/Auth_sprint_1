@@ -5,7 +5,7 @@ from db.db import db
 
 
 def get_user(login: str):
-    user = User.query.filter_by(login=login).first()
+    user = User.query.filter_by(login=login).one_or_none()
     return user
 
 

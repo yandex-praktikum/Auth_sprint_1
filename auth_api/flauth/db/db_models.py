@@ -1,12 +1,12 @@
 import uuid
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from flask_login import UserMixin
+from datetime import datetime
 
 from db.db import db
 
 
-class User(db.Model, UserMixin):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(UUID(as_uuid=True),
@@ -30,3 +30,24 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'<User {self.login}>'
+
+
+class AuthRecord(db.Model):
+    __tablename__ = 'auth'
+
+    id = Column(UUID(as_uuid=True),
+                primary_key=True,
+                default=uuid.uuid4,
+                unique=True,
+                nullable=False)
+
+    user_id = Column(UUID(as_uuid=True),
+                     nullable=False)
+
+    user_agent = Column(String,
+                        nullable=False)
+
+    data_time = Column(DateTime,
+                       default=datetime.now(),
+                       nullable=False)
+
