@@ -17,112 +17,154 @@ paths:
       tags: [Roles]
       operationId: app.get_roles
       summary: Get all roles
-      parameters:
-        - name: animal_type
-          in: query
-          type: string
-          pattern: "^[a-zA-Z0-9]*$"
-        - name: limit
-          in: query
-          type: integer
-          format: int32
-          minimum: 0
-          default: 100
       responses:
         200:
           description: Return roles
           schema:
             type: object
             properties:
-              pets:
+              roles:
                 type: array
                 items:
-                  $ref: '#/definitions/Pet'
+                  $ref: '#/definitions/Role'
   /roles/{role_id}:
     get:
-      tags: [Pets]
-      operationId: app.get_pet
-      summary: Get a single pet
+      tags: [Roles]
+      operationId: app.get_role
+      summary: Get a single role
       parameters:
-        - $ref: '#/parameters/pet_id'
+        - $ref: '#/parameters/role_id'
       responses:
         200:
-          description: Return pet
+          description: Return role
           schema:
-            $ref: '#/definitions/Pet'
+            $ref: '#/definitions/Role'
         404:
-          description: Pet does not exist
+          description: Role does not exist
     put:
-      tags: [Pets]
-      operationId: app.put_pet
-      summary: Create or update a pet
+      tags: [Roles]
+      operationId: app.put_role
+      summary: Create or update a role
       parameters:
-        - $ref: '#/parameters/pet_id'
-        - name: pet
+        - $ref: '#/parameters/role_id'
+        - name: role
           in: body
           schema:
-            $ref: '#/definitions/Pet'
+            $ref: '#/definitions/Role'
       responses:
         200:
-          description: Pet updated
+          description: Role updated
         201:
-          description: New pet created
+          description: New role created
+        401:
+          description: Unauthorized request
     delete:
-      tags: [Pets]
-      operationId: app.delete_pet
-      summary: Remove a pet
+      tags: [Roles]
+      operationId: app.delete_role
+      summary: Remove a role
       parameters:
-        - $ref: '#/parameters/pet_id'
+        - $ref: '#/parameters/role_id'
       responses:
         204:
-          description: Pet was deleted
+          description: Role was deleted
         404:
-          description: Pet does not exist
-
-
+          description: Role does not exist
+        401:
+          description: Unauthorized request
+  /users:
+    get:
+      tags: [Users]
+      operationId: app.get_user_roles
+      summary: Get user's roles
+      parameters:
+        - $ref: '#/parameters/user_id'
+      responses:
+        200:
+          description: Return role's ids
+          schema:
+            type: object
+            properties:
+              roles:
+                type: array
+                items:
+                  $ref: '#/parameters/role_id'
+        401:
+          description: Unauthorized request
+    put:
+      tags: [Users]
+      operationId: app.add_role_to_user
+      summary: Grant role to user
+      parameters:
+        - $ref: '#/parameters/role_id'
+        - $ref: '#/parameters/user_id'
+      responses:
+        200:
+          description: Role updated
+        201:
+          description: New role created
+        401:
+          description: Unauthorized request
+    delete:
+      tags: [Roles]
+      operationId: app.delete_role_from_user
+      summary: Remove a role from user
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        204:
+          description: Role was deleted
+        404:
+          description: Role does not exist
+        401:
+          description: Unauthorized request        
 parameters:
-  pet_id:
-    name: pet_id
-    description: Pet's Unique identifier
+  role_id:
+    name: role_id
+    description: Role's Unique identifier
     in: path
     type: string
     required: true
     pattern: "^[a-zA-Z0-9-]+$"
-
+  user_id:
+    name: role_id
+    description: User's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
 definitions:
   Role:
     type: object
     required:
-      - name
-      - animal_type
+      - role
+      - description
+      - rule
     properties:
       id:
         type: string
         description: Unique identifier
         example: "123"
         readOnly: true
-      name:
+      role:
         type: string
-        description: Pet's name
-        example: "Susie"
+        description: role's name
+        example: "subscriber"
         minLength: 1
         maxLength: 100
-      animal_type:
+      description:
         type: string
-        description: Kind of animal
-        example: "cat"
-        minLength: 1
-      tags:
-        type: object
-        description: Custom tags
+        description: Role description
+        example: "Simple subscriber"
+      rule:
+        type: string
+        description: "publication_data>1990"
       created:
         type: string
         format: date-time
         description: Creation time
         example: "2015-07-07T15:49:51.230+02:00"
         readOnly: true
-
-
 securityDefinitions:
   oauth2:
     type: oauth2
