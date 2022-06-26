@@ -16,6 +16,7 @@ services:
     build:
       context: ./postgres
       dockerfile: Dockerfile
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -48,7 +49,7 @@ services:
     depends_on:
       - web
   redis:
-    image: redis
+    image: redis:6.0
     container_name: redis
     expose:
       - 6379
@@ -63,6 +64,22 @@ services:
       - web
     env_file:
       - ./.env
+  auth:
+    build:
+      context: ./auth_api
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=content
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - SECRET_KEY=16be489f7ba8a18ab6d506a207dde676a56bc7684b1a16120d4d432b19f3a8cd
+      - JWT_SECRET_KEY=16be489f7ba8a18ab6d506a207dde676a56bc7684b1a16120d4d432b19f3a8cd
+      - JWT_ACCESS_TOKEN_EXPIRES_HOURS=1
+      - JWT_REFRESH_TOKEN_EXPIRES_DAYS=30
 volumes:
   postgres_data:
   static_volume:
