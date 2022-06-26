@@ -117,7 +117,22 @@ paths:
         404:
           description: Role does not exist
         401:
-          description: Unauthorized request        
+          description: Unauthorized request
+  /check:
+    get:
+      tags: [Check]
+      operationId: app.check_role
+      summary: Check that user has role
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        200:
+          description: User has role
+        404:
+          description: User doen't have role
+        401:
+          description: Unauthorized request       
 parameters:
   role_id:
     name: role_id
