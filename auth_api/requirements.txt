@@ -4,3 +4,5 @@ flask_jwt_extended==4.4.1
 psycopg2-binary==2.9.3
 sqlalchemy==1.4.37
 passlib==1.7.4
+redis==4.3.3
+gevent==21.12.0

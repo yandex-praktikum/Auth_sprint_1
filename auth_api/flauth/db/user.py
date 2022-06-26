@@ -9,9 +9,10 @@ def get_user(login: str):
     return user
 
 
-def post_user(user: dict):
+def post_user(user):
     try:
-        user = User(**user)
+        if type(user) == dict:
+            user = User(**user)
         db.session.add(user)
         db.session.commit()
     except IntegrityError:
