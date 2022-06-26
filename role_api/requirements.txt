@@ -1,0 +1,3 @@
+flask==
+sqlalchemy==1.4.39
+gevent==21.12.0

@@ -6,3 +6,6 @@ DROP TABLE IF EXISTS content.genre_film_work CASCADE;
 DROP TABLE IF EXISTS content.film_work;
 DROP TABLE IF EXISTS content.person;
 DROP TABLE IF EXISTS content.genre;
+
+DROP TABLE IF EXISTS roles.user_role;
+DROP TABLE IF EXISTS roles.role;
