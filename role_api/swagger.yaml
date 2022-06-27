@@ -71,7 +71,7 @@ paths:
           description: Role does not exist
         401:
           description: Unauthorized request
-  /users:
+  /user/{user_id}:
     get:
       tags: [Users]
       operationId: app.get_user_roles

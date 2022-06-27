@@ -1,10 +1,11 @@
 version: '3.8'
 
 services:
-  web:
+  search_api:
     build:
-      context: ./app
+      context: ./search_api
       dockerfile: Dockerfile
+    container_name: search_api
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
@@ -16,6 +17,7 @@ services:
     build:
       context: ./postgres
       dockerfile: Dockerfile
+    container_name: postgres
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -31,13 +33,14 @@ services:
       - 5432
   nginx:
     build: ./nginx
+    container_name: nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
     ports:
       - 80:80
     depends_on:
-      - web
+      - search_api
   elasticsearch:
     image: elasticsearch:7.17.3
     container_name: elasticsearch
@@ -47,7 +50,7 @@ services:
     expose:
       - 9200
     depends_on:
-      - web
+      - search_api
   redis:
     image: redis:6.0
     container_name: redis
@@ -57,17 +60,19 @@ services:
     build:
       context: ./etl
       dockerfile: Dockerfile
+    container_name: etl
     depends_on:
       - postgres
       - elasticsearch
       - redis
-      - web
+      - search_api
     env_file:
       - ./.env
-  auth:
+  auth_api:
     build:
       context: ./auth_api
       dockerfile: Dockerfile
+    container_name: auth_api
     ports:
       - 5000:5000
     environment:
@@ -80,6 +85,36 @@ services:
       - JWT_SECRET_KEY=16be489f7ba8a18ab6d506a207dde676a56bc7684b1a16120d4d432b19f3a8cd
       - JWT_ACCESS_TOKEN_EXPIRES_HOURS=1
       - JWT_REFRESH_TOKEN_EXPIRES_DAYS=30
+  role_api:
+    build:
+      context: ./role_api
+      dockerfile: Dockerfile
+    container_name: role_api
+    ports:
+      - 5001:5001
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=users
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+  tests:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile
+    container_name: tests
+    ports:
+      - 5001:5001
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=users
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    entrypoint: >
+      sh -c "python3 ./utils/wait_for_es.py
+      && python3 ./utils/wait_for_redis.py
+      && pytest ./src"
 volumes:
   postgres_data:
   static_volume:
