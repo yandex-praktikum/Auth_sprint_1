@@ -74,3 +74,5 @@ CREATE TABLE IF NOT EXISTS roles.user_role (
     role_id uuid NOT NULL,
     created timestamp with time zone
 );
+
+CREATE SCHEMA IF NOT EXISTS auth;
