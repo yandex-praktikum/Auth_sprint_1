@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+#
+# @created: 27.06.2022
+# @author: sprint6_team
+
 from db.db_models import RefreshToken
 from db.db import db
 

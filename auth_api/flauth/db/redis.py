@@ -1,21 +1,26 @@
+# -*- coding: utf-8 -*-
+#
+# @created: 27.06.2022
+# @author: sprint6_team
+
+from datetime import timedelta
+from typing import Any
+from config import settings
 import redis
 
-from config import REDIS_HOST, REDIS_PORT
-from config import JWT_ACCESS_TOKEN_EXPIRES, JWT_REFRESH_TOKEN_EXPIRES
 
-
-redis_blocklist = redis.StrictRedis(
-    host=REDIS_HOST, port=REDIS_PORT, db=0, decode_responses=True
+redis_db = redis.StrictRedis(
+    host=settings.redis_host, port=settings.redis_port, db=settings.redis_db, decode_responses=True
 )
 
+JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=int(settings.JWT_ACCESS_TOKEN_EXPIRES_HOURS)) 
+JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=int(settings.JWT_REFRESH_TOKEN_EXPIRES_DAYS))
 
-def push_blocklist(jwt):
-    redis_blocklist.set(jwt, "", ex=JWT_ACCESS_TOKEN_EXPIRES)
-    
+def blocklist_push(jwt: Any):
+    redis_db.set(jwt, "", ex=settings["JWT_ACCESS_TOKEN_EXPIRES"])
 
-def push_blocklist(jwt):
-    redis_blocklist.set(jwt, "", ex=JWT_ACCESS_TOKEN_EXPIRES)
+def blocklist_delete(jwt: Any):
+    redis_db.delete(jwt)
 
-
-def check_blocklist(jwt):
-    return redis_blocklist.get(jwt)
+def blocklist_check(jwt: Any):
+    return redis_db.get(jwt)

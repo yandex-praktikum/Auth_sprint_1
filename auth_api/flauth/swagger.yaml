@@ -8,13 +8,13 @@ paths:
   /login:
     post:
       operationId: auth.login_post
-      summary: take login, password return access and refresh token
+      summary: Return the access and refresh tokens
       parameters:
         - $ref: '#/parameters/login'
         - $ref: '#/parameters/password'
       responses:
         200:
-          description: Return tokens
+          description: Succesuful returned tokens
           schema:
             type: object
             properties:
@@ -25,11 +25,11 @@ paths:
         400: 
           description: Login does not exist
         401:
-          description: Wrong password
+          description: A wrong password
   /signup:
     post:
       operationId: auth.signup_post
-      summary: create new user
+      summary: Create a new user
       parameters:
         - $ref: '#/parameters/login'
         - $ref: '#/parameters/email'
@@ -41,9 +41,9 @@ paths:
         409: 
           description: Login or E-mail already exists
   /refresh:
-    post:
+    put:
       operationId: auth.refresh_post
-      summary: check refresh tocken from header, give new access and refresh token
+      summary: Check the refresh tocken from header, give new access and refresh token
       responses:
         200:
           description: Return tokens
@@ -56,24 +56,24 @@ paths:
                 type: string
         401:
           description: Wrong token
-  /info:
+  /login:
     get:
       operationId: auth.info_get
-      summary: information about auth jwt is nedded
+      summary: Information about auth jwt is nedded
       responses:
         200:
           description: auth records
   /logout:
     delete:
       operationId: auth.logout
-      summary: clean tokens
+      summary: Clean tokens
       responses:
         200:
           description: Access and refresh token delete
   /newlogin:
-    post:
+    put:
       operationId: auth.newlogin_post
-      summary: chenge login
+      summary: Change login
       parameters:
         - $ref: '#/parameters/login'
         - $ref: '#/parameters/new_login'
@@ -81,22 +81,22 @@ paths:
       responses:
         200:
           description: New login set
-        409: 
-          description: New login already exists
         404:
           description: Login dose not exist
         401:
           description: Wrong password
-  /newpassword:
-    post:
+  /user:
+    put:
       operationId: auth.newpasswor_post
-      summary: chenge password
+      summary: Change password
         - $ref: '#/parameters/login'
         - $ref: '#/parameters/new_password'
         - $ref: '#/parameters/password'
       responses:
         200:
           description: New password set
+        409: 
+          description: New login already exists
         404:
           description: Login dose not exist
         401:
