@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
 
@@ -51,3 +51,27 @@ class AuthRecord(db.Model):
                        default=datetime.now(),
                        nullable=False)
 
+
+class RefreshToken(db.Model):
+    __tablename__ = 'refresh'
+
+    id = Column(UUID(as_uuid=True),
+                primary_key=True,
+                default=uuid.uuid4,
+                unique=True,
+                nullable=False)
+
+    user_id = Column(UUID(as_uuid=True),
+                     nullable=False)
+
+    user_agent = Column(String,
+                        nullable=False)
+
+    refresh_token = Column(String,
+                           nullable=False)
+
+    __table_args__ = (UniqueConstraint(
+        'user_id',
+        'user_agent',
+        name='_user_id__agent'
+    ), )
