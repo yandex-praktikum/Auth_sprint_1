@@ -4,6 +4,8 @@
 # @author: sprint6_team
 
 from flask import Flask
+from db.user import post_user
+from utils.passwords import hash_password
 from db.db import init_db
 from config import settings
 from pages import auth
@@ -15,6 +17,11 @@ from api.v1 import signup
 from api.v1 import logout
 from api.v1 import user
 from api.v1 import refresh
+
+import click
+from flask import Flask
+from flask.cli import AppGroup
+
 
 app = Flask(__name__, template_folder='templates')
 
@@ -34,6 +41,25 @@ jwt.init_app(app)
 app.register_blueprint(auth.auth_blueprint)
 app.register_blueprint(main.main_blueprint)
 
+
+user_cli = AppGroup('user')
+
+@user_cli.command('add_admin')
+@click.argument('login')
+@click.argument('email')
+@click.argument('name')
+@click.argument('password')
+def create_user(login, email, name, password):
+    user_dict = {}
+    user_dict['login'] = login
+    user_dict['email'] = email
+    user_dict['name'] = name
+    user_dict['password'] = password
+    user_dict['role'] = "admin"
+    user_dict['hash_password'] = hash_password(password)
+    post_user(user_dict)
+
+app.cli.add_command(user_cli)
 
 
 if __name__ == '__main__':
