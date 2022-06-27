@@ -1,28 +1,27 @@
-import uuid
-from sqlalchemy import Column, String
-from sqlalchemy.dialects.postgresql import UUID
-from db import Base
+# -*- coding: utf-8 -*-
+#
+# @created: 25.06.2022
+# @author: Aleksey Komissarov & Lyubov Antyufrieva
+# @contact: ad3002@gmail.com
 
 
-class Role(Base):
-    __tablename__ = 'roles'
+from typing import Any
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from settings import settings
+import redis
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    role = Column(String, unique=True, nullable=False, unique=True)
-    description = Column(String, nullable=True)
-    rule = Column(String, nullable=False)
+db = SQLAlchemy()
 
-    def __init__(self, role, description, rule):
-        self.role = role
-        self.description = description
-        self.rule = rule
+redis_db = redis.Redis(
+                host=settings.redis_host, 
+                port=settings.redis_port, 
+                db=settings.redis_db)
 
-    def __repr__(self):
-        return f'<Role {self.role}>'
+def blocklist_check(jwt: Any):
+    return redis_db.get(jwt)
 
-class UserRole(Base):
-
-    __tablename__ = 'user_role'
-
-    user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    role_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+def init_db(app: Flask):
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_db}'
+    db.init_app(app) 
+    db.create_all()

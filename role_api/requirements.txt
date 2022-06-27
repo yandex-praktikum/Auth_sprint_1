@@ -1,3 +1,8 @@
-flask==
-sqlalchemy==1.4.39
+flask==2.1.2
+flask-sqlalchemy==2.5.1
+psycopg2-binary==2.9.3
+sqlalchemy==1.4.37
+redis==4.3.3
 gevent==21.12.0
+python-dotenv==0.20.0
+pydantic==1.9.0

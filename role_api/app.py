@@ -1,41 +1,37 @@
-from flask import Flask, request
+# -*- coding: utf-8 -*-
+#
+# @created: 27.06.2022
+# @author: sprint6_team
 
-app = Flask(__name__)
+from flask import Flask
+from db import init_db
+from settings import settings
+from views import role
+from views import main
+from utils.jwt_tokens import jwt
 
-@app.route("/roles", ["GET"])
-def get_roles():
-    pass
+from api.v1 import role
+from api.v1 import roles
+from api.v1 import user
+from api.v1 import check
 
-@app.route("/role/{role_id}", ["GET"])
-def get_role(role_id):
-    pass
+app = Flask(__name__, template_folder='templates')
 
-@app.route("/role/{role_id}", ["PUT"])
-def put_role(role_id):
-    pass
+app.config['JWT_SECRET_KEY'] = settings.JWT_SECRET_KEY
+app.config['HOST'] = settings.role_app_host
+app.config['PORT'] = settings.role_app_port
+app.config['DEBUG'] = settings.debug
 
-@app.route("/role/{role_id}", ["DELETE"])
-def delete_role(role_id):
-    pass
 
-@app.route("/user/{user_id}", ["GET"])
-def get_user_roles(user_id):
-    pass
+app.app_context().push()
 
-@app.route("/user/{user_id}", ["PUT"])
-def add_role_to_user(user_id):
-    pass
+init_db(app)
 
-@app.route("/user/{user_id}", ["DELETE"])
-def delete_role_from_user(user_id):
-    pass
+jwt.init_app(app)
 
-@app.route("/check", ["POST"])
-def check_role(user_id):
-    pass
+app.register_blueprint(role.role_blueprint)
+app.register_blueprint(main.main_blueprint)
+
 
 if __name__ == '__main__':
-    app.run(
-        host='0.0.0.0',
-        port=8000,
-    )
+    app.run(host=settings.role_app_host, port=settings.role_app_port, debug=settings.debug)
