@@ -9,7 +9,7 @@
 - search_api_django - админка
 
 # Запуск проекта
-Скопируйте .env.example в .env
+- скопируйте .env.example в .env
 - docker-compose up -d --build --remove-orphans
 - docker-compose up
 
