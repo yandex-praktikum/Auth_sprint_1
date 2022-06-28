@@ -1,0 +1,221 @@
+swagger: '2.0'
+info:
+  title: Role API
+  version: "0.1"
+  description: API for add, edit and remove roles for users
+consumes:
+  - application/json
+produces:
+  - application/json
+security:
+  # enable OAuth protection for all REST endpoints
+  # (only active if the TOKENINFO_URL environment variable is set)
+  - oauth2: [uid]
+paths:
+  /roles:
+    get:
+      tags: [Roles]
+      operationId: app.get_roles
+      summary: Get all roles
+      responses:
+        200:
+          description: Return roles
+          schema:
+            type: object
+            properties:
+              roles:
+                type: array
+                items:
+                  $ref: '#/definitions/Role'
+  /roles/{role_id}:
+    get:
+      tags: [Roles]
+      operationId: app.get_role
+      summary: Get a single role
+      parameters:
+        - $ref: '#/parameters/role_id'
+      responses:
+        200:
+          description: Return role
+          schema:
+            $ref: '#/definitions/Role'
+        404:
+          description: Role does not exist
+    put:
+      tags: [Roles]
+      operationId: app.put_role
+      summary: Create or update a role
+      parameters:
+        - $ref: '#/parameters/role_id'
+        - name: role
+          in: body
+          schema:
+            $ref: '#/definitions/Role'
+      responses:
+        200:
+          description: Role updated
+        201:
+          description: New role created
+        401:
+          description: Unauthorized request
+    delete:
+      tags: [Roles]
+      operationId: app.delete_role
+      summary: Remove a role
+      parameters:
+        - $ref: '#/parameters/role_id'
+      responses:
+        204:
+          description: Role was deleted
+        404:
+          description: Role does not exist
+        401:
+          description: Unauthorized request
+  /user/{user_id}:
+    get:
+      tags: [Users]
+      operationId: app.get_user_roles
+      summary: Get user's roles
+      parameters:
+        - $ref: '#/parameters/user_id'
+      responses:
+        200:
+          description: Return role's ids
+          schema:
+            type: object
+            properties:
+              roles:
+                type: array
+                items:
+                  $ref: '#/parameters/role_id'
+        401:
+          description: Unauthorized request
+    put:
+      tags: [Users]
+      operationId: app.add_role_to_user
+      summary: Grant role to user
+      parameters:
+        - $ref: '#/parameters/role_id'
+        - $ref: '#/parameters/user_id'
+      responses:
+        200:
+          description: Role updated
+        201:
+          description: New role created
+        401:
+          description: Unauthorized request
+    delete:
+      tags: [Roles]
+      operationId: app.delete_role_from_user
+      summary: Remove a role from user
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        204:
+          description: Role was deleted
+        404:
+          description: Role does not exist
+        401:
+          description: Unauthorized request
+  /check:
+    get:
+      tags: [Check]
+      operationId: app.check_role
+      summary: Check that user has role
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        200:
+          description: User has role
+        404:
+          description: User doen't have role
+        401:
+          description: Unauthorized request 
+  /check:
+    get:
+      tags: [Check]
+      operationId: app.check_role
+      summary: Check that user has role
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        200:
+          description: User has role
+        404:
+          description: User doen't have role
+        401:
+          description: Unauthorized request 
+  /check/{user_id}/{role_id}:
+    get:
+      tags: [Check]
+      operationId: app.check_user_and_role
+      summary: Check that user has role
+      parameters:
+        - $ref: '#/parameters/user_id'
+        - $ref: '#/parameters/role_id'
+      responses:
+        200:
+          description: User has role
+        404:
+          description: User doen't have role
+        401:
+          description: Unauthorized request
+
+
+parameters:
+  role_id:
+    name: role_id
+    description: Role's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  user_id:
+    name: role_id
+    description: User's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+definitions:
+  Role:
+    type: object
+    required:
+      - role
+      - description
+      - rule
+    properties:
+      id:
+        type: string
+        description: Unique identifier
+        example: "123"
+        readOnly: true
+      role:
+        type: string
+        description: role's name
+        example: "subscriber"
+        minLength: 1
+        maxLength: 100
+      description:
+        type: string
+        description: Role description
+        example: "Simple subscriber"
+      rule:
+        type: string
+        description: "publication_data>1990"
+      created:
+        type: string
+        format: date-time
+        description: Creation time
+        example: "2015-07-07T15:49:51.230+02:00"
+        readOnly: true
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    flow: implicit
+    authorizationUrl: https://example.com/oauth2/dialog
+    scopes:
+      uid: Unique identifier of the user accessing the service.

@@ -1,0 +1,171 @@
+swagger: '2.0'
+
+info:
+  title: Auth API
+  version: "0.1"
+  description: API for signup, login and auth users
+paths:
+  /login:
+    post:
+      operationId: auth.login_post
+      summary: Return the access and refresh tokens
+      parameters:
+        - $ref: '#/parameters/login'
+        - $ref: '#/parameters/password'
+      responses:
+        200:
+          description: Succesuful returned tokens
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              refresh_token:
+                type: string
+        400: 
+          description: Login does not exist
+        401:
+          description: A wrong password
+  /signup:
+    post:
+      operationId: auth.signup_post
+      summary: Create a new user
+      parameters:
+        - $ref: '#/parameters/login'
+        - $ref: '#/parameters/email'
+        - $ref: '#/parameters/name'
+        - $ref: '#/parameters/password'
+      responses:
+        201:
+          description: Successful registration
+        409: 
+          description: Login or E-mail already exists
+  /refresh:
+    put:
+      operationId: auth.refresh_post
+      summary: Check the refresh tocken from header, give new access and refresh token
+      responses:
+        200:
+          description: Return tokens
+          schema:
+            type: object
+            properties:
+              access_token:
+                type: string
+              refresh_token:
+                type: string
+        401:
+          description: Wrong token
+  /login:
+    get:
+      operationId: auth.info_get
+      summary: Information about auth jwt is nedded
+      responses:
+        200:
+          description: auth records
+      schema:
+          type: object
+          properties:
+            roles:
+              type: array
+              items:
+                $ref: '#/definitions/Login'
+  /logout:
+    delete:
+      operationId: auth.logout
+      summary: Clean tokens
+      responses:
+        200:
+          description: Access and refresh token delete
+  /newlogin:
+    put:
+      operationId: auth.newlogin_post
+      summary: Change login
+      parameters:
+        - $ref: '#/parameters/login'
+        - $ref: '#/parameters/new_login'
+        - $ref: '#/parameters/password'
+      responses:
+        200:
+          description: New login set
+        404:
+          description: Login dose not exist
+        401:
+          description: Wrong password
+  /user:
+    put:
+      operationId: auth.newpasswor_post
+      summary: Change password
+        - $ref: '#/parameters/login'
+        - $ref: '#/parameters/new_password'
+        - $ref: '#/parameters/password'
+      responses:
+        200:
+          description: New password set
+        409: 
+          description: New login already exists
+        404:
+          description: Login dose not exist
+        401:
+          description: Wrong password
+parameters:
+  login:
+    name: login
+    description: user login
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  password:
+    name: password
+    description: user pasword
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  email:
+    name: email
+    description: user email
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  name:
+    name: name
+    description: user name
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  new_login:
+    name: new_login
+    description: new user login
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$"
+  new_password:
+    name: new_password
+    description: new user pasword
+    in: path
+    type: string
+    required: true
+    pattern: "^[a-zA-Z0-9-]+$" 
+definitions:
+  Login:
+    type: object
+    required:
+      - user_agent
+      - data_time
+    properties:
+      user_agent:
+        type: string
+        description: User agent
+        example: "Chrome"
+      data_time:
+        type: string
+        format: date-time
+        description: Event time
+        example: "2015-07-07T15:49:51.230+02:00"
+        readOnly: true
+        

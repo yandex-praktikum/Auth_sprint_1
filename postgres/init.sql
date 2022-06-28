@@ -54,3 +54,25 @@ CREATE INDEX IF NOT EXISTS film_work_creation_date_idx ON content.film_work (cre
 CREATE UNIQUE INDEX IF NOT EXISTS film_work_person_idx ON content.person_film_work (film_work_id, person_id, role);
 CREATE UNIQUE INDEX IF NOT EXISTS genre_name_idx ON content.genre (name);
 
+CREATE SCHEMA IF NOT EXISTS roles;
+
+DROP TABLE IF EXISTS roles.user_role;
+DROP TABLE IF EXISTS roles.role;
+
+CREATE TABLE IF NOT EXISTS roles.role (
+    id uuid PRIMARY KEY,
+    role TEXT NOT NULL,
+    description TEXT,
+    rule TEXT NOT NULL,
+    created timestamp with time zone,
+    modified timestamp with time zone
+);
+
+CREATE TABLE IF NOT EXISTS roles.user_role (
+    id uuid PRIMARY KEY,
+    user_id uuid NOT NULL,
+    role_id uuid NOT NULL,
+    created timestamp with time zone
+);
+
+CREATE SCHEMA IF NOT EXISTS auth;
