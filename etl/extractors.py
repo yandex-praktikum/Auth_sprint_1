@@ -30,6 +30,7 @@ def handle_psycopg2_errors(err: Exception) -> NoReturn:
 def conn_context(config: dataclass) -> Iterator:
     """Context manager that connect to both databases."""
     try:
+        logger.info(config.get_psycopg_dict())
         conn = psycopg2.connect(**config.get_psycopg_dict(), cursor_factory=DictCursor)
     except psycopg2.OperationalError as err:
         handle_psycopg2_errors(err)

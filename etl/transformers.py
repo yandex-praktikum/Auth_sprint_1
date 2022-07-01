@@ -25,6 +25,7 @@ def transformer_films(row: dict) -> list:
         "imdb_rating": data.imdb_rating,
         "genre": data.genre,
         "title": data.title,
+        "creation_date": data.creation_date,
         "description": data.description,
         "director": data.director,
         "actors_names": data.actors_names,

@@ -9,6 +9,7 @@ query_films = """
         content.film_work.rating AS imdb_rating,
         ARRAY_AGG(DISTINCT content.genre.name) AS genre,
         content.film_work.title,
+        content.film_work.creation_date,
         content.film_work.description,
         ARRAY_AGG(DISTINCT content.person.full_name)
         FILTER(WHERE content.person_film_work.role = 'director') AS director,

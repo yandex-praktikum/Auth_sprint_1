@@ -57,7 +57,8 @@
                     "id": {"type": "keyword"},
                     "name": {"type": "text", "analyzer": "ru_en"}
                 }
-            }
+            },
+            "creation_date": {"type": "date"}
         }
     }
 }
