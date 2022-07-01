@@ -81,7 +81,7 @@ async def make_get_request(session):
     async def inner(method: str = '', params: dict = None) -> HTTPResponse:
         params = params or {}
         url = '{service}/api/v1/{method}'.format(
-            service=f"{settings.search_app_port}:{settings.search_app_host}",
+            service=f"{settings.search_api_port}:{settings.search_api_host}",
             method=method,
         )
         async with session.get(url, params=params) as response:
