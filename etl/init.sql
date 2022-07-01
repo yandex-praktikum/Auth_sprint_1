@@ -104,5 +104,6 @@ CREATE TABLE IF NOT EXISTS users.refresh (
     id uuid PRIMARY KEY,
     user_id uuid NOT NULL,
     user_agent TEXT NOT NULL,
-    refresh_token TEXT NOT NULL
+    refresh_token TEXT NOT NULL,
+    UNIQUE(user_id, user_agent)
 );
