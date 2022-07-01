@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/tests")
+
 import aiohttp
 import pytest_asyncio
 import json
@@ -9,7 +12,7 @@ from typing import Any, Callable
 from dataclasses import dataclass
 from multidict import CIMultiDictProxy
 from elasticsearch import AsyncElasticsearch
-import os.path
+
 from typing import AsyncGenerator
 
 from aioredis import create_redis_pool, Redis
@@ -20,17 +23,10 @@ import logging
 import os
 
 
-from settings import TestSettings
+from functional.settings import settings
 
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
-
-settings = TestSettings()
-SERVICE_URL = settings.SERVICE_URL
-ES_HOST_PORT = settings.ES_HOST_PORT
-REDIS_HOST = settings.REDIS_HOST
-REDIS_PORT = settings.REDIS_PORT
-
 
 @dataclass
 class HTTPResponse:
@@ -51,7 +47,7 @@ async def read_json_data():
 
 @pytest_asyncio.fixture(scope='session')
 async def es_client() -> AsyncGenerator[AsyncElasticsearch, None]:
-    client = AsyncElasticsearch([ES_HOST_PORT])
+    client = AsyncElasticsearch([f"{settings.es_host}:{settings.es_port}"])
     yield client
     logging.info('ES client closes soon')
     await client.close()
@@ -59,8 +55,8 @@ async def es_client() -> AsyncGenerator[AsyncElasticsearch, None]:
 
 @pytest_asyncio.fixture(scope='session')
 async def redis_client() -> AsyncGenerator[Redis, None]:
-    redis = await create_redis_pool((REDIS_HOST, REDIS_PORT),
-                                    minsize=10, maxsize=20)
+    redis = await create_redis_pool((settings.redis_host, settings.redis_port),
+                                    minsize=settings.redis_min_size, maxsize=settings.redis_max_size)
     yield redis
     redis.close()
     await redis.wait_closed()
@@ -85,7 +81,7 @@ async def make_get_request(session):
     async def inner(method: str = '', params: dict = None) -> HTTPResponse:
         params = params or {}
         url = '{service}/api/v1/{method}'.format(
-            service=SERVICE_URL,
+            service=f"{settings.search_app_port}:{settings.search_app_host}",
             method=method,
         )
         async with session.get(url, params=params) as response:

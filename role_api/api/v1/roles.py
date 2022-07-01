@@ -6,8 +6,7 @@
 
 from http import HTTPStatus
 
-from flask import jsonify, request
-from app import app
+from flask import jsonify
 from views.role import role_blueprint
 from db_models import Role
 from flask_jwt_extended import jwt_required
