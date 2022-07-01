@@ -1,10 +1,13 @@
 import sys
 sys.path.append("/tests")
-
+import time
+import logging
 from functional.settings import settings
 
 import pytest
 from http import HTTPStatus
+
+logger = logging.getLogger()
 
 SERVICE = f"{settings.auth_api_host}:{settings.auth_api_port}"
 
@@ -14,28 +17,55 @@ USERS = [
     {
         "login": "user1",
         "email": "email1@yandex.ru",
+        "name": "ruuu1",
         "password": "password1"
     },
     {
         "login": "user2",
         "email": "email2@yandex.ru",
+        "name": "ruuu2",
         "password": "password2"
     },
     {
         "login": "user3",
         "email": "email3@yandex.ru",
+        "name": "ruuu3",
         "password": "password3"
     },
 ]
 
-
 async def test_signup(read_json_data, make_request):
-    """Проверка выдачи фильма по id"""
-
+    USERS[0]["login"] += str(time.time())
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
-    print(response)
-    assert response.status == HTTPStatus.CREATED
-    assert response.body == ""
+    logger.info(response)
+    assert response.status in [HTTPStatus.CREATED]
+    assert response.body == {}
+
+async def test_signup_or_user_exist(read_json_data, make_request):
+    response = await make_request(SERVICE, "POST", "signup", USERS[0])
+    logger.info(response)
+    assert response.status in [HTTPStatus.CREATED, HTTPStatus.CONFLICT]
+    assert response.body == {}
+
+
+async def test_signup_and_login_if_user_exist(read_json_data, make_request):
+    response = await make_request(SERVICE, "POST", "signup", USERS[0])
+    logger.info(response)
+    assert response.status in [HTTPStatus.CREATED, HTTPStatus.CONFLICT]
+    assert response.body == {}
+
+    login_info = {
+        "login": USERS[0]["login"],
+        "password": USERS[0]["password"],
+    }
+    response = await make_request(SERVICE, "POST", "login", login_info)
+    logger.info(response)
+    assert response.status in [HTTPStatus.ACCEPTED]
+    assert len(response.body) == 2
+    assert "access_token" in response.body
+    assert "refresh_token" in response.body
+
+
 
 
 # async def test_film_id_404(read_json_data, make_get_request):
