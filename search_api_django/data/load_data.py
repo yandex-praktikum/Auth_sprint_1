@@ -50,8 +50,8 @@ class UploadSettings:
     output_dbname: str = os.environ.get("DB_PREFIX")
     user: str = os.environ.get("POSTGRES_USER")
     password: str = os.environ.get("POSTGRES_PASSWORD")
-    host: str = os.environ.get("SQL_HOST")
-    port: int = os.environ.get("SQL_PORT")
+    host: str = os.environ.get("POSTGRES_HOST")
+    port: int = os.environ.get("POSTGRES_PORT")
     batch_size: int = 100
 
     def get_psycopg_dict(self) -> dict:

@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     postgres_host: str = Field("127.0.0.1", env="POSTGRES_HOST")
     postgres_port: int = Field(10, env="POSTGRES_PORT")
     postgres_db: str = Field("content", env="POSTGRES_DB")
+    postgres_role_db: str = Field("content", env="POSTGRES_ROLE_DB")
 
     role_app_host: str = Field("127.0.0.1", env="ROLE_APP_HOST")
     role_app_port: int = Field(5002, env="ROLE_APP_PORT")

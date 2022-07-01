@@ -8,6 +8,7 @@ from db.db import db
 
 class User(db.Model):
     __tablename__ = 'users'
+    __table_args__ = {'schema': 'users'}
 
     id = Column(UUID(as_uuid=True),
                 primary_key=True,
@@ -34,6 +35,7 @@ class User(db.Model):
 
 class AuthRecord(db.Model):
     __tablename__ = 'auth'
+    __table_args__ = {'schema': 'users'}
 
     id = Column(UUID(as_uuid=True),
                 primary_key=True,
@@ -47,13 +49,14 @@ class AuthRecord(db.Model):
     user_agent = Column(String,
                         nullable=False)
 
-    data_time = Column(DateTime,
+    date_time = Column(DateTime,
                        default=datetime.now(),
                        nullable=False)
 
 
 class RefreshToken(db.Model):
     __tablename__ = 'refresh'
+    __table_args__ = {'schema': 'users'}
 
     id = Column(UUID(as_uuid=True),
                 primary_key=True,

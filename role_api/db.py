@@ -22,5 +22,5 @@ def blocklist_check(jwt: Any):
     return redis_db.get(jwt)
 
 def init_db(app: Flask):
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_db}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_role_db}'
     db.init_app(app) 

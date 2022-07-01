@@ -66,6 +66,6 @@ def info_get():
     auth_records = get_auth_records(user_info['id'])
     auth_records = [{
         'user_agent': item.user_agent,
-        'data_time': item.data_time
+        'date_time': item.date_time
     } for item in auth_records]
     return jsonify(auth_records), HTTPStatus.OK

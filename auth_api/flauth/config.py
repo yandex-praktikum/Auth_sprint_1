@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     postgres_host: str = Field("127.0.0.1", env="POSTGRES_HOST")
     postgres_port: int = Field(5432, env="POSTGRES_PORT")
     postgres_db: str = Field("content", env="POSTGRES_DB")
+    postgres_auth_db: str = Field("content", env="POSTGRES_AUTH_DB")
 
     SECRET_KEY: str = Field("SECRET_KEY", env="SECRET_KEY")
     JWT_SECRET_KEY: str = Field("JWT_SECRET_KEY", env="JWT_SECRET_KEY")

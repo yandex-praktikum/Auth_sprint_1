@@ -12,6 +12,7 @@ from db import db
 
 class Role(db.Model):
     __tablename__ = 'roles'
+    __table_args__ = {'schema': 'roles'}
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     role = Column(String, unique=True, nullable=False)
@@ -29,6 +30,7 @@ class Role(db.Model):
 class UserRole(db.Model):
 
     __tablename__ = 'user_role'
+    __table_args__ = {'schema': 'roles'}
 
     user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     role_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)

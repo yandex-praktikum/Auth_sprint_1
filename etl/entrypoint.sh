@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Waiting for postgres..."
-while ! nc -z $SQL_HOST $SQL_PORT; do
+while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
   sleep 0.1
 done
 echo "PostgreSQL started"
@@ -19,5 +19,8 @@ while ! nc -z $ELASTIC_HOST $ELASTIC_PORT; do
   sleep 0.1
 done
 echo "Elastic started"
+
+export PGPASSWORD=$POSTGRES_PASSWORD
+psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -f /app/init.sql
 
 exec "$@"

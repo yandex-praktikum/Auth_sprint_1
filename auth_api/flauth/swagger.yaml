@@ -156,13 +156,13 @@ definitions:
     type: object
     required:
       - user_agent
-      - data_time
+      - date_time
     properties:
       user_agent:
         type: string
         description: User agent
         example: "Chrome"
-      data_time:
+      date_time:
         type: string
         format: date-time
         description: Event time

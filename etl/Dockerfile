@@ -9,6 +9,7 @@ COPY . /app
 WORKDIR /app/
 RUN python -m pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN apk add postgresql-client
 
 # run entrypoint.sh
 RUN chmod +x  /app/entrypoint.sh
