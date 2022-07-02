@@ -81,33 +81,34 @@ async def make_request(session):
                     method: str = '', 
                     path: str = '', 
                     data: dict = None, 
-                    params: dict = None
+                    params: dict = None,
+                    **kwargs
                 ) -> HTTPResponse:
         params = params or {}
         url = f'http://{service}/api/v1/{path}'
         if method == "GET":
-            async with session.get(url, params=params) as response:
+            async with session.get(url, params=params, **kwargs) as response:
                 return HTTPResponse(
                     body=await response.json(),
                     headers=response.headers,
                     status=response.status,
             )
         elif method == "POST":
-            async with session.post(url, data=data, params=params) as response:
+            async with session.post(url, data=data, params=params, **kwargs) as response:
                 return HTTPResponse(
                     body=await response.json(),
                     headers=response.headers,
                     status=response.status,
             )
         elif method == "DELETE":
-            async with session.delete(url, data=data, params=params) as response:
+            async with session.delete(url, data=data, params=params, **kwargs) as response:
                 return HTTPResponse(
                     body=await response.json(),
                     headers=response.headers,
                     status=response.status,
             )
         elif method == "PUT":
-            async with session.put(url, data=data, params=params) as response:
+            async with session.put(url, data=data, params=params, **kwargs) as response:
                 return HTTPResponse(
                     body=await response.json(),
                     headers=response.headers,
