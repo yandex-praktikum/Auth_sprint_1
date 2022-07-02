@@ -34,140 +34,89 @@ USERS = [
     },
 ]
 
-async def test_signup(read_json_data, make_request):
+async def test_signup(make_request):
+    """Тестирование регистрации"""
+    
     USERS[0]["login"] += str(time.time())
+    
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
     logger.info(response)
+    
     assert response.status in [HTTPStatus.CREATED]
     assert response.body == {}
 
-async def test_signup_or_user_exist(read_json_data, make_request):
+async def test_signup_if_user_exist(make_request):
+    """Тестирование повторной регистрации"""
+    response = await make_request(SERVICE, "POST", "signup", USERS[0])
+
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
     logger.info(response)
-    assert response.status in [HTTPStatus.CREATED, HTTPStatus.CONFLICT]
+    
+    assert response.status in [HTTPStatus.CONFLICT]
     assert response.body == {}
 
-
-async def test_signup_and_login_if_user_exist(read_json_data, make_request):
+async def test_login(make_request):
+    """Тестирование входа"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
     logger.info(response)
-    assert response.status in [HTTPStatus.CREATED, HTTPStatus.CONFLICT]
-    assert response.body == {}
-
     login_info = {
         "login": USERS[0]["login"],
         "password": USERS[0]["password"],
     }
+    
     response = await make_request(SERVICE, "POST", "login", login_info)
     logger.info(response)
-    assert response.status in [HTTPStatus.ACCEPTED]
+    
+    assert response.status in [HTTPStatus.OK]
     assert len(response.body) == 2
     assert "access_token" in response.body
     assert "refresh_token" in response.body
 
+async def test_login_wrong_login(make_request):
+    """Тестирование входа с несуществующим логином"""
+    login_info = {
+        "login": "wrong_login",
+        "password": USERS[0]["password"],
+    }
 
+    response = await make_request(SERVICE, "POST", "login", login_info)
+    logger.info(response)
 
+    assert response.status in [HTTPStatus.BAD_REQUEST]
+    assert response.body == {}
 
-# async def test_film_id_404(read_json_data, make_get_request):
-#     """Проверка выдачи фильма по несуществующему id"""
+async def test_login_wrong_login(make_request):
+    """Тестирование входа с неправильным паролем"""
+    login_info = {
+        "login": USERS[0]["login"],
+        "password": "wrong_password",
+    }
 
-#     response_404 = await make_get_request('films/'+'wrong_id')
+    response = await make_request(SERVICE, "POST", "login", login_info)
+    logger.info(response)
 
-#     assert response_404.status == HTTPStatus.NOT_FOUND
-#     assert response_404.body == {'detail': 'film not found'}
+    assert response.status in [HTTPStatus.UNAUTHORIZED]
+    assert response.body == {}
 
+async def test_login_get(make_request):
+    """Тестирование получния данных о заходах в аккаунт"""
+    response = await make_request(SERVICE, "POST", "signup", USERS[1])
+    login_info = {
+        "login": USERS[1]["login"],
+        "password": USERS[1]["password"],
+    }
+    response = await make_request(SERVICE, "POST", "login", login_info)
+    access_token = response.body["access_token"]
+    headers = {
+        'Authorization': 'Bearer ' + access_token
+    }
+    params = {'headers': headers}
+    response = await make_request(SERVICE, "GET", "login", params=params)
 
-# async def test_film_sort(read_json_data, make_get_request):
-#     """Проверка сортировки фильмов"""
+    assert response.status in [HTTPStatus.OK]
+    assert len(response.body) != 0
+    assert "user_agent" in response.body[0]
+    assert "date_time" in response.body[0]
 
-#     ans_path = '/../testdata/ans/film_sort.json'
-#     ans = await read_json_data(ans_path)
-
-#     response = await make_get_request('films', {'sort': '-imdb_rating'})
     
-#     assert response.status == HTTPStatus.OK
-#     assert len(response.body) == 20
-#     assert response.body == ans
 
-    
-# async def test_film_sort_400(read_json_data, make_get_request):
-#     """Проверка сортировки фильмов с невалидным запросом"""
-
-#     response_400 = await make_get_request('films', {'sort': 'wrong_rating'})
-
-#     assert response_400.status == HTTPStatus.BAD_REQUEST
-#     assert response_400.body == {'detail': 'wrong request'}
-
-
-# async def test_film_sort_qenre(read_json_data, make_get_request):
-#     """Проверка сортировки по жанру"""
-
-#     ans_path = '/../testdata/ans/film_sort_genre.json'
-#     ans = await read_json_data(ans_path)
-
-#     response = await make_get_request('films', {
-#         'sort': '-imdb_rating',
-#         'genre': 'b92ef010-5e4c-4fd0-99d6-41b6456272cd'
-#     })
-
-#     assert response.status == 200
-#     assert len(response.body) == len(ans)
-#     assert response.body == ans
-
-
-# async def test_film_sort_qenre_3(read_json_data, make_get_request):
-#     """Проверка сортировки по жанру с ограниченной выдачей"""
-
-#     ans_path = '/../testdata/ans/film_sort_genre.json'
-#     ans = await read_json_data(ans_path)
-
-#     response_3 = await make_get_request('films', {
-#         'sort': '-imdb_rating',
-#         'genre': 'b92ef010-5e4c-4fd0-99d6-41b6456272cd',
-#         'page[size]': '3',
-#         'page[number]': '1'
-#     })
-
-#     assert response_3.status == 200
-#     assert len(response_3.body) == 3
-#     assert response_3.body == ans[0:3]
-
-
-# async def test_film_sort_qenre_400_sort(read_json_data, make_get_request):
-#     """Проверка сортировки по жанру с ошибкой в сортировке"""
-
-#     response_400_sort = await make_get_request('films', {
-#         'sort': 'wrong_rating',
-#         'genre': 'b92ef010-5e4c-4fd0-99d6-41b6456272cd'
-#     })
-
-#     assert response_400_sort.status == HTTPStatus.BAD_REQUEST
-#     assert response_400_sort.body == {'detail': 'wrong request'}
-
-
-# async def test_film_sort_qenre_400_genre(read_json_data, make_get_request):
-#     """Проверка сортировки по жанру с ошибкой в жанре"""
-
-#     response_400_genre = await make_get_request('films', {
-#         'sort': '-imdb_rating',
-#         'genre': 'wrong_genre'
-#     })
-
-#     assert response_400_genre.status == HTTPStatus.BAD_REQUEST
-#     assert response_400_genre.body == {'detail': 'wrong request'}
-
-
-# async def test_film_search(read_json_data, make_get_request):
-#     """Проверка поиска по фильмам"""
-
-#     # Подготовка
-#     ans_path = '/../testdata/ans/film_search.json'
-#     ans = await read_json_data(ans_path)
-
-#     # Вызов тестируемой функции
-#     response = await make_get_request('films/search', {'query': 'Star Wars'})
-
-#     # Проверки
-#     assert response.status == 200
-#     assert len(response.body) == len(ans)
-#     assert response.body == ans
