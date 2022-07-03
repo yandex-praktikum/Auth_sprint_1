@@ -12,10 +12,11 @@ from asyncio.log import logger
 import click
 from api.v1 import login, logout, refresh, signup, user
 from config import logger, settings
-from db.db import init_db
+from db.db import db, init_db
 from db.user import get_user, post_user
 from flask import Flask
 from flask.cli import AppGroup
+from flask_migrate import Migrate
 from pages import auth, main
 from utils.jwt_tokens import jwt
 from utils.passwords import hash_password
@@ -34,10 +35,14 @@ app.app_context().push()
 
 init_db(app)
 
+migrage = Migrate(app, db)
+
 jwt.init_app(app)
 
 app.register_blueprint(auth.auth_blueprint)
 app.register_blueprint(main.main_blueprint)
+
+
 
 
 user_cli = AppGroup("user")

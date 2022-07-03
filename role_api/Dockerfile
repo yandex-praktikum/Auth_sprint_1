@@ -9,4 +9,5 @@ RUN export PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r /app/requirements.txt
 COPY . /app/
-CMD ["python3", "/app/wsgi_app.py"]
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]

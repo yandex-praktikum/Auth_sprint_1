@@ -4,8 +4,9 @@
 # @author: sprint6_team
 
 from api.v1 import check, role, roles, user
-from db import init_db
+from db import db, init_db
 from flask import Flask
+from flask_migrate import Migrate
 from settings import settings
 from utils.jwt_tokens import jwt
 from views import main, role
@@ -22,6 +23,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.app_context().push()
 
 init_db(app)
+
+migrage = Migrate(app, db)
 
 jwt.init_app(app)
 

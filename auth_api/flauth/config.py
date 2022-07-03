@@ -3,6 +3,7 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+import logging
 from typing import Any
 
 from dotenv import load_dotenv
