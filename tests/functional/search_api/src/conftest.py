@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/tests")
 
 import aiohttp
@@ -26,7 +27,8 @@ import os
 from functional.settings import settings
 
 
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
+
 
 @dataclass
 class HTTPResponse:
@@ -38,38 +40,43 @@ class HTTPResponse:
 @pytest_asyncio.fixture()
 async def read_json_data():
     async def inner(path: str) -> Any:
-        async with aiofiles.open(os.path.dirname(__file__)+path, 'r') as f:
+        async with aiofiles.open(os.path.dirname(__file__) + path, "r") as f:
             json_dict = json.loads(await f.read())
-            logging.info('File {path} was read'.format(path=path))
+            logging.info("File {path} was read".format(path=path))
             return json_dict
+
     return inner
 
 
-@pytest_asyncio.fixture(scope='session')
+@pytest_asyncio.fixture(scope="session")
 async def es_client() -> AsyncGenerator[AsyncElasticsearch, None]:
     client = AsyncElasticsearch([f"{settings.es_host}:{settings.es_port}"])
     yield client
-    logging.info('ES client closes soon')
+    logging.info("ES client closes soon")
     await client.close()
 
 
-@pytest_asyncio.fixture(scope='session')
+@pytest_asyncio.fixture(scope="session")
 async def redis_client() -> AsyncGenerator[Redis, None]:
-    redis = await create_redis_pool((settings.redis_host, settings.redis_port),
-                                    minsize=settings.redis_min_size, maxsize=settings.redis_max_size)
+    redis = await create_redis_pool(
+        (settings.redis_host, settings.redis_port),
+        minsize=settings.redis_min_size,
+        maxsize=settings.redis_max_size,
+    )
     yield redis
     redis.close()
     await redis.wait_closed()
 
 
-@pytest_asyncio.fixture(scope='session')
+@pytest_asyncio.fixture(scope="session")
 def clear_cache(redis_client: Redis):
     async def inner() -> None:
         await redis_client.flushall(async_op=True)
+
     return inner
 
 
-@pytest_asyncio.fixture(scope='function')
+@pytest_asyncio.fixture(scope="function")
 async def session() -> AsyncGenerator[aiohttp.ClientSession, None]:
     session = aiohttp.ClientSession()
     yield session
@@ -78,9 +85,9 @@ async def session() -> AsyncGenerator[aiohttp.ClientSession, None]:
 
 @pytest_asyncio.fixture
 async def make_get_request(session):
-    async def inner(method: str = '', params: dict = None) -> HTTPResponse:
+    async def inner(method: str = "", params: dict = None) -> HTTPResponse:
         params = params or {}
-        url = '{service}/api/v1/{method}'.format(
+        url = "{service}/api/v1/{method}".format(
             service=f"{settings.search_api_port}:{settings.search_api_host}",
             method=method,
         )
@@ -90,47 +97,37 @@ async def make_get_request(session):
                 headers=response.headers,
                 status=response.status,
             )
+
     return inner
 
 
-@pytest_asyncio.fixture(scope='session', autouse=True)
-async def fill_elastic_data(es_client: AsyncElasticsearch,
-                            clear_cache: Callable):
+@pytest_asyncio.fixture(scope="session", autouse=True)
+async def fill_elastic_data(es_client: AsyncElasticsearch, clear_cache: Callable):
     # создаем все схемы
     index_dict = {
-            'movies': '/../testdata/indexes/films.json',
-            'genres': '/../testdata/indexes/genres.json',
-            'persons': '/../testdata/indexes/persons.json'
-        }
+        "movies": "/../testdata/indexes/films.json",
+        "genres": "/../testdata/indexes/genres.json",
+        "persons": "/../testdata/indexes/persons.json",
+    }
     for index, schema_path in index_dict.items():
-        async with aiofiles.open(os.path.dirname(__file__)+schema_path,
-                                 'r') as f:
+        async with aiofiles.open(os.path.dirname(__file__) + schema_path, "r") as f:
             schema = json.loads(await f.read())
         try:
-            await es_client.indices.create(
-                index=index,
-                body=schema
-            )
+            await es_client.indices.create(index=index, body=schema)
         except RequestError:
             pass
     logging.info("Indexes was created")
     # выгружаем данные
     data_dict = {
-        'movies': '/../testdata/data/films.json',
-        'genres': '/../testdata/data/genres.json',
-        'persons': '/../testdata/data/persons.json'
+        "movies": "/../testdata/data/films.json",
+        "genres": "/../testdata/data/genres.json",
+        "persons": "/../testdata/data/persons.json",
     }
     for index_name, data_path in data_dict.items():
-        async with aiofiles.open(os.path.dirname(__file__)+data_path,
-                                 'r') as f:
+        async with aiofiles.open(os.path.dirname(__file__) + data_path, "r") as f:
             data = json.loads(await f.read())
         actions = [
-            {
-                "_index": index_name,
-                "_id": doc['uuid'],
-                '_type': '_doc',
-                **doc
-            }
+            {"_index": index_name, "_id": doc["uuid"], "_type": "_doc", **doc}
             for doc in data
         ]
         logging.info(es_client)
@@ -143,13 +140,14 @@ async def fill_elastic_data(es_client: AsyncElasticsearch,
         for index_name, data in data_dict.items():
             delete_data = [
                 {
-                    '_op_type': 'delete',
-                    '_index': index_name,
-                    '_type': '_doc',
-                    '_id': doc['uuid'],
-                    **doc
+                    "_op_type": "delete",
+                    "_index": index_name,
+                    "_type": "_doc",
+                    "_id": doc["uuid"],
+                    **doc,
                 }
-                for doc in data]
+                for doc in data
+            ]
             await async_bulk(es_client, delete_data)
             logging.info("Data was deleted")
         await clear_cache()

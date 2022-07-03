@@ -22,6 +22,7 @@ from transformers import transformer_persons
 from transformers import transformer_genres
 from queries import query_films, query_genres, query_persons
 
+
 class SingletonError(Exception):
     pass
 
@@ -29,17 +30,25 @@ class SingletonError(Exception):
 @backoff_decorator
 def extractor_films(config, state) -> Iterator:
     """Extractor from source database."""
-    yield from iter_bulk_extractor("films", config, query_films, config.batch_size, state)
+    yield from iter_bulk_extractor(
+        "films", config, query_films, config.batch_size, state
+    )
+
 
 @backoff_decorator
 def extractor_genres(config, state) -> Iterator:
     """Extractor from source database."""
-    yield from iter_bulk_extractor("genres", config, query_genres, config.batch_size, state)
+    yield from iter_bulk_extractor(
+        "genres", config, query_genres, config.batch_size, state
+    )
+
 
 @backoff_decorator
 def extractor_persons(config, state) -> Iterator:
     """Extractor from source database."""
-    yield from iter_bulk_extractor("persons", config, query_persons, config.batch_size, state)
+    yield from iter_bulk_extractor(
+        "persons", config, query_persons, config.batch_size, state
+    )
 
 
 @backoff_decorator
@@ -80,7 +89,7 @@ def check_singleton(state: Any) -> NoReturn:
     """Check that app is singleton."""
 
     mypid = os.getpid()
-    if state.is_empty() or not state.get("pid") :
+    if state.is_empty() or not state.get("pid"):
         state.set("pid", mypid)
     else:
         pid = int(state.get("pid"))
@@ -113,6 +122,7 @@ def configuration(force: bool) -> tuple:
 
     return config, state, es
 
+
 @backoff_decorator
 def main(force=False) -> NoReturn:
     """The entrypoint function."""
@@ -125,8 +135,8 @@ def main(force=False) -> NoReturn:
         if transformed_data:
             print(transformed_data)
             loader_data_to_es(es, transformed_data, config.es_scheme_genres)
-            total += len(transformed_data)/2
-    
+            total += len(transformed_data) / 2
+
     logger.info(f"Done with genres. ({total})")
 
     total = 0
@@ -136,8 +146,8 @@ def main(force=False) -> NoReturn:
         if transformed_data:
             print(transformed_data)
             loader_data_to_es(es, transformed_data, config.es_scheme_persons)
-            total += len(transformed_data)/2
-    
+            total += len(transformed_data) / 2
+
     logger.info(f"Done with persons: ({total})")
 
     total = 0
@@ -147,7 +157,7 @@ def main(force=False) -> NoReturn:
         if transformed_data:
             print(transformed_data)
             loader_data_to_es(es, transformed_data, config.es_scheme_films)
-            total += len(transformed_data)/2
+            total += len(transformed_data) / 2
 
     logger.info(f"Done with films: ({total})")
 

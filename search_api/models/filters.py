@@ -31,8 +31,7 @@ class CombinedSorter(GenericModel):
     def _search_query_options(self):
         options = []
         if self.order_by:
-            options.append({self.order_by.name: "desc"
-                            if self.desc else "asc"})
+            options.append({self.order_by.name: "desc" if self.desc else "asc"})
         return options
 
     @property
@@ -70,9 +69,7 @@ class CombinedFilter(GenericModel):
             else:
                 raise Exception("Something wrong happens with field_name.")
             if value is not None:
-                results.append(self._get_option_template(field_name,
-                                                         variant,
-                                                         value))
+                results.append(self._get_option_template(field_name, variant, value))
         return results
 
     @property

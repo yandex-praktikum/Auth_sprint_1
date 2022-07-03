@@ -11,6 +11,7 @@ from config import Settings
 
 settings = Settings()
 
+
 def transformer_films(row: dict) -> list:
     """Data transformer."""
     data = MovieModel(**row)

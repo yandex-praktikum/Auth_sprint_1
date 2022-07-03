@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("..")
 sys.path.append("../..")
 
@@ -13,18 +14,17 @@ from redis import Redis
 
 logging.basicConfig(level="INFO")
 
+
 @backoff
 def get_es_client() -> Elasticsearch:
     return Elasticsearch(
-        hosts=[{
-            'host': settings.es_host,
-            'port': settings.es_port,
-
-        }],
-        headers={
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        hosts=[
+            {
+                "host": settings.es_host,
+                "port": settings.es_port,
+            }
+        ],
+        headers={"Accept": "application/json", "Content-Type": "application/json"},
     )
 
 
@@ -35,15 +35,17 @@ def get_redis_client() -> Redis:
 
 @backoff
 def check_connection(service):
-    server_address = tuple([getattr(settings,
-                                    f"{service}_{attr}")
-                            for attr in ('host', 'port')])
+    server_address = tuple(
+        [getattr(settings, f"{service}_{attr}") for attr in ("host", "port")]
+    )
     with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
         try:
             if sock.connect_ex(server_address) == 0:
                 logging.info(f"{service} is connected {server_address}")
             else:
                 logging.info(f"{service} is not connected {server_address}")
-                raise ConnectionError(f"{service} could not be connected {server_address}")
+                raise ConnectionError(
+                    f"{service} could not be connected {server_address}"
+                )
         except Exception as e:
             raise e

@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/tests")
 import time
 import logging
@@ -20,29 +21,30 @@ USERS = [
         "login": "user1",
         "email": "email1@yandex.ru",
         "name": "ruuu1",
-        "password": "password1"
+        "password": "password1",
     },
     {
         "login": "user2",
         "email": "email2@yandex.ru",
         "name": "ruuu2",
-        "password": "password2"
+        "password": "password2",
     },
     {
         "login": "user3",
         "email": "email3@yandex.ru",
         "name": "ruuu3",
-        "password": "password3"
+        "password": "password3",
     },
 ]
 
+
 async def test_signup(make_request):
     """Тестирование регистрации"""
-    
+
     USERS[0]["login"] += str(time.time())
-    
+
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
-    
+
     assert response.status in [HTTPStatus.CREATED]
     assert response.body == {}
 
@@ -52,7 +54,7 @@ async def test_signup_if_user_exist(make_request):
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
 
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
-    
+
     assert response.status in [HTTPStatus.CONFLICT]
     assert response.body == {}
 
@@ -64,9 +66,9 @@ async def test_login(make_request):
         "login": USERS[0]["login"],
         "password": USERS[0]["password"],
     }
-    
+
     response = await make_request(SERVICE, "POST", "login", login_info)
-    
+
     assert response.status in [HTTPStatus.OK]
     assert len(response.body) == 2
     assert "access_token" in response.body
@@ -108,9 +110,7 @@ async def test_login_get(make_request):
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
     access_token = response.body["access_token"]
-    headers = {
-        'Authorization': 'Bearer ' + access_token
-    }
+    headers = {"Authorization": "Bearer " + access_token}
 
     response = await make_request(SERVICE, "GET", "login", headers=headers)
 
@@ -122,9 +122,7 @@ async def test_login_get(make_request):
 
 async def test_login_get_wrong(make_request):
     """Тестирование получния данных о заходах в аккаунт для неправильного токена"""
-    headers = {
-        'Authorization': 'Bearer ' + 'wrong_tocken'
-    }
+    headers = {"Authorization": "Bearer " + "wrong_tocken"}
 
     response = await make_request(SERVICE, "GET", "login", headers=headers)
 
@@ -140,9 +138,7 @@ async def test_refresh_token(make_request):
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
     refresh_token = response.body["refresh_token"]
-    headers = {
-        'Authorization': 'Bearer ' + refresh_token
-    }
+    headers = {"Authorization": "Bearer " + refresh_token}
 
     response = await make_request(SERVICE, "POST", "refresh", headers=headers)
 
@@ -161,9 +157,7 @@ async def test_refresh_token_duble(make_request):
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
     refresh_token = response.body["refresh_token"]
-    headers = {
-        'Authorization': 'Bearer ' + refresh_token
-    }
+    headers = {"Authorization": "Bearer " + refresh_token}
     response = await make_request(SERVICE, "POST", "refresh", headers=headers)
 
     response = await make_request(SERVICE, "POST", "refresh", headers=headers)
@@ -181,9 +175,7 @@ async def test_logout(make_request):
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
     access_token = response.body["access_token"]
-    headers = {
-        'Authorization': 'Bearer ' + access_token
-    }
+    headers = {"Authorization": "Bearer " + access_token}
 
     response = await make_request(SERVICE, "DELETE", "logout", headers=headers)
 
@@ -201,13 +193,9 @@ async def test_logout_refresh(make_request):
     response = await make_request(SERVICE, "POST", "login", login_info)
     access_token = response.body["access_token"]
     refresh_token = response.body["refresh_token"]
-    headers = {
-        'Authorization': 'Bearer ' + access_token
-    }
+    headers = {"Authorization": "Bearer " + access_token}
     response = await make_request(SERVICE, "DELETE", "logout", headers=headers)
-    headers = {
-        'Authorization': 'Bearer ' + refresh_token
-    }
+    headers = {"Authorization": "Bearer " + refresh_token}
 
     response = await make_request(SERVICE, "POST", "refresh", headers=headers)
 
@@ -224,14 +212,13 @@ async def test_logout_login_info(make_request):
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
     access_token = response.body["access_token"]
-    headers = {
-        'Authorization': 'Bearer ' + access_token
-    }
+    headers = {"Authorization": "Bearer " + access_token}
     response = await make_request(SERVICE, "DELETE", "logout", headers=headers)
 
     response = await make_request(SERVICE, "GET", "login", headers=headers)
 
     assert response.status in [HTTPStatus.UNAUTHORIZED]
+
 
 async def test_admin_user(make_request):
 
@@ -242,9 +229,7 @@ async def test_admin_user(make_request):
 
     response = await make_request(SERVICE, "POST", "login", ADMIN_USER)
     access_token = response.body["access_token"]
-    headers = {
-        'Authorization': 'Bearer ' + access_token
-    }
+    headers = {"Authorization": "Bearer " + access_token}
 
     response = await make_request(SERVICE, "GET", "login", headers=headers)
 

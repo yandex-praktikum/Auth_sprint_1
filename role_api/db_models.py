@@ -10,11 +10,18 @@ from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
 from db import db
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-    __table_args__ = {'schema': 'roles'}
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+class Role(db.Model):
+    __tablename__ = "roles"
+    __table_args__ = {"schema": "roles"}
+
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )
     role = Column(String, unique=True, nullable=False)
     description = Column(String, nullable=True)
     rule = Column(String, nullable=False)
@@ -25,12 +32,25 @@ class Role(db.Model):
         self.rule = rule
 
     def __repr__(self):
-        return f'<Role {self.role}>'
+        return f"<Role {self.role}>"
+
 
 class UserRole(db.Model):
 
-    __tablename__ = 'user_role'
-    __table_args__ = {'schema': 'roles'}
+    __tablename__ = "user_role"
+    __table_args__ = {"schema": "roles"}
 
-    user_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    role_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    user_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )
+    role_id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )

@@ -12,6 +12,7 @@ from db_models import Role, UserRole
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from views.role import role_blueprint
 
+
 @role_blueprint.route("/user/{user_id}", methods=["GET"])
 @jwt_required()
 def get_user_roles(user_id):
@@ -19,6 +20,7 @@ def get_user_roles(user_id):
     roles = UserRole.query(user_id=user["id"]).all()
     user_roles = [role.role_id for role in roles]
     return jsonify(user_roles), HTTPStatus.OK
+
 
 @role_blueprint.route("/user/{user_id}/{role_id}", methods=["PUT"])
 @jwt_required()
@@ -30,6 +32,7 @@ def add_role_to_user(user_id, role_id):
     db.session.add(role)
     db.session.commit()
     return {}, HTTPStatus.OK
+
 
 @role_blueprint.route("/user/{user_id}/{role_id}", methods=["DELETE"])
 @jwt_required()

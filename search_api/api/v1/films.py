@@ -94,7 +94,7 @@ async def film_list(
     response = await _service.get_filtered(
         CombinedFilterFilm(**filter_kwargs),
         CombinedSorterFilm(**sorter_kwargs),
-        PaginatedParams(page, size)
+        PaginatedParams(page, size),
     )
 
     if not show_description:
@@ -112,7 +112,8 @@ async def film_details(
     _response = await _service.get_by_id(film_id)
     if not _response:
         # Если фильм не найден, отдаём 404 статус
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND,
-                            detail=Message.film_not_found)
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail=Message.film_not_found
+        )
 
     return _response

@@ -54,9 +54,7 @@ async def person_list(
     sorter_kwargs = {}
     sorters = CombinedSorter(**sorter_kwargs)
     response = await _service.get_filtered(
-        filters,
-        sorters,
-        PaginatedParams(page, size)
+        filters, sorters, PaginatedParams(page, size)
     )
     return response
 
@@ -68,6 +66,7 @@ async def person_details(
 
     _response = await _service.get_by_id(person_id)
     if not _response:
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND,
-                            detail=Message.person_not_found)
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail=Message.person_not_found
+        )
     return _response

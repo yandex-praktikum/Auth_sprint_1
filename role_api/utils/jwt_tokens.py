@@ -1,4 +1,3 @@
-
 from flask_jwt_extended import JWTManager, create_access_token
 from flask_jwt_extended import create_refresh_token
 from flask_jwt_extended import decode_token
@@ -15,9 +14,11 @@ def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     token_in_redis = blocklist_check(jti)
     return token_in_redis is not None
 
+
 def get_jwt():
-    return flask_get_jwt()['jti']
+    return flask_get_jwt()["jti"]
+
 
 def get_jti(token):
     decod_token = decode_token(token)
-    return decod_token['jti']
+    return decod_token["jti"]

@@ -24,7 +24,7 @@ def refresh_post():
     user_agent = request.user_agent.string
 
     # Вытаскиваем из БД токен
-    token_info = pull_refresh_token(user_info['id'], user_agent)
+    token_info = pull_refresh_token(user_info["id"], user_agent)
 
     # Если машина не та или токена удален из БД
     if not token_info:
@@ -41,5 +41,7 @@ def refresh_post():
     # Обновляем данные о refresh токене
     update_refresh_token(token_info, refresh_token)
 
-    return jsonify(access_token=access_token, refresh_token=refresh_token), \
-        HTTPStatus.OK
+    return (
+        jsonify(access_token=access_token, refresh_token=refresh_token),
+        HTTPStatus.OK,
+    )

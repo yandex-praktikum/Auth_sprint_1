@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     debug: bool = Field(False, env="DEBUG")
     batch_size: int = 100
-    
+
     redis_db: str = Field("movies", env="REDIS_DB")
     redis_port: int = Field(6379, env="REDIS_PORT")
     redis_host: str = Field("127.0.0.1", env="REDIS_HOST")
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
 
     SECRET_KEY: str = Field("SECRET_KEY", env="SECRET_KEY")
     JWT_SECRET_KEY: str = Field("JWT_SECRET_KEY", env="JWT_SECRET_KEY")
-    
+
     JWT_REFRESH_TOKEN_EXPIRES_DAYS: int = Field(5, env="JWT_REFRESH_TOKEN_EXPIRES_DAYS")
     JWT_ACCESS_TOKEN_EXPIRES_HOURS: int = Field(5, env="JWT_ACCESS_TOKEN_EXPIRES_HOURS")
 

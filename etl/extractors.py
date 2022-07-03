@@ -38,19 +38,20 @@ def conn_context(config: dataclass) -> Iterator:
     conn.close()
 
 
-def iter_bulk_extractor(name: str, config: Any, query: str, batch_size: int, state: Any) -> Iterator:
+def iter_bulk_extractor(
+    name: str, config: Any, query: str, batch_size: int, state: Any
+) -> Iterator:
     """Get all data from DB."""
     print("Connection...")
     with conn_context(config) as conn:
 
         cursor = conn.cursor()
-        query = query % state.get(
-            f"last_bulk_extractor_{name}"
-        )
+        query = query % state.get(f"last_bulk_extractor_{name}")
 
         cursor.execute(query)
         state.set(
-            f"last_bulk_extractor_{name}", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f"last_bulk_extractor_{name}",
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         )
         while True:
             rows_batch = cursor.fetchmany(batch_size)

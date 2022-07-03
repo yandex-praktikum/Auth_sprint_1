@@ -38,7 +38,8 @@ async def startup():
     )
     logging.info("Redis connected")
     elastic.es = AsyncElasticsearch(
-        hosts=[f"{settings.elastic_host}:{settings.elastic_port}"])
+        hosts=[f"{settings.elastic_host}:{settings.elastic_port}"]
+    )
     logging.info("Elastic connected")
 
 

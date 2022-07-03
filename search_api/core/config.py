@@ -24,10 +24,8 @@ class Settings(BaseSettings):
 
     elastic_host: str = Field("127.0.0.1", env="ELASTIC_HOST")
     elastic_port: int = Field(9200, env="ELASTIC_PORT")
-    elastic_scheme_films: str = Field("movies",
-                                      env="ELASTIC_SCHEME_FILMS")
-    elastic_scheme_persons: str = Field("persons",
-                                        env="ELASTIC_SCHEME_PERSONS")
+    elastic_scheme_films: str = Field("movies", env="ELASTIC_SCHEME_FILMS")
+    elastic_scheme_persons: str = Field("persons", env="ELASTIC_SCHEME_PERSONS")
     elastic_scheme_genres: str = Field("genres", env="ELASTIC_SCHEME_GENRES")
 
     redis_db: str = "movies"

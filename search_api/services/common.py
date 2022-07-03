@@ -7,8 +7,11 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any
 
-from services.managers import (AsyncDataStorage, MultipleServiceManager,
-                               SingleServiceManager)
+from services.managers import (
+    AsyncDataStorage,
+    MultipleServiceManager,
+    SingleServiceManager,
+)
 
 
 class AsyncCacheStorage(ABC):
@@ -61,10 +64,9 @@ class Service:
             self.index_name,
             combined_filter=combined_filter,
             combined_sorter=combined_sorter,
-            paginated_params=paginated_params
+            paginated_params=paginated_params,
         )
-        results = await manager.get_result(self.cache_storage,
-                                           self.data_storage)
+        results = await manager.get_result(self.cache_storage, self.data_storage)
         response = self.filtered_response_func(
             results=list(
                 map(

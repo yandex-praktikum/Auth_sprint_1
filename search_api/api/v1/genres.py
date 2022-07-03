@@ -42,9 +42,7 @@ async def genre_list(
     sorter_kwargs = {}
     sorters = CombinedSorter(**sorter_kwargs)
     response = await _service.get_filtered(
-        filters,
-        sorters,
-        paginated_params=PaginatedParams(page, size)
+        filters, sorters, paginated_params=PaginatedParams(page, size)
     )
     return response
 
@@ -56,6 +54,7 @@ async def genre_details(
 
     _response = await _service.get_by_id(genre_id)
     if not _response:
-        raise HTTPException(status_code=HTTPStatus.NOT_FOUND,
-                            detail=Message.genre_not_found)
+        raise HTTPException(
+            status_code=HTTPStatus.NOT_FOUND, detail=Message.genre_not_found
+        )
     return _response

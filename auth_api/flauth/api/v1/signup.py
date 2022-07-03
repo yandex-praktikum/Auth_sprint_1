@@ -13,17 +13,17 @@ from utils.passwords import hash_password
 from pages.auth import auth_blueprint
 
 
-@auth_blueprint.route('/signup', methods=['POST'])
+@auth_blueprint.route("/signup", methods=["POST"])
 def signup_post():
     user_dict = {}
-    user_dict['login'] = request.form.get('login')
-    user_dict['email'] = request.form.get('email')
-    user_dict['name'] = request.form.get('name')
-    password = request.form.get('password')
-    user_dict['hash_password'] = hash_password(password)
+    user_dict["login"] = request.form.get("login")
+    user_dict["email"] = request.form.get("email")
+    user_dict["name"] = request.form.get("name")
+    password = request.form.get("password")
+    user_dict["hash_password"] = hash_password(password)
 
     # Проверка, что юзера не сущетвует
-    user = get_user(user_dict['login'])
+    user = get_user(user_dict["login"])
 
     print(user, user_dict)
     if user:

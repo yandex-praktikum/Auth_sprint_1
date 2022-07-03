@@ -25,21 +25,17 @@ def transform_single_response(data):
     directors_names = data["_source"].pop("directors_names")
     genres = data["_source"].pop("genres")
     data["_source"]["actors"] = [
-        PersonResponse(full_name=name, is_actor=True)
-        for name in actors_names
+        PersonResponse(full_name=name, is_actor=True) for name in actors_names
     ]
     data["_source"]["writers"] = [
-        PersonResponse(full_name=name, is_writer=True)
-        for name in writers_names
+        PersonResponse(full_name=name, is_writer=True) for name in writers_names
     ]
     if genres:
         data["_source"]["genres"] = [
-            GenreResponse(name=genre, description="")
-            for genre in genres
+            GenreResponse(name=genre, description="") for genre in genres
         ]
     data["_source"]["directors"] = [
-        PersonResponse(full_name=name, is_director=True)
-        for name in directors_names
+        PersonResponse(full_name=name, is_director=True) for name in directors_names
     ]
 
     return FilmResponse(**data["_source"])

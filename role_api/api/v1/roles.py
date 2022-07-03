@@ -11,6 +11,7 @@ from views.role import role_blueprint
 from db_models import Role
 from flask_jwt_extended import jwt_required
 
+
 @role_blueprint.route("/roles", methods=["GET"])
 @jwt_required()
 def get_roles():

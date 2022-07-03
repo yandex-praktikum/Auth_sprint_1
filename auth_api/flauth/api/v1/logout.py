@@ -15,7 +15,7 @@ from pages.auth import auth_blueprint
 from db.redis import blocklist_push
 
 
-@auth_blueprint.route('/logout', methods=["DELETE"])
+@auth_blueprint.route("/logout", methods=["DELETE"])
 @jwt_required()
 def logout():
     # Вытаскиваем данные о пользователе и устройсве
@@ -27,6 +27,6 @@ def logout():
     blocklist_push(jti)
 
     # Удаляем refrech токен
-    delete_refresh_token(user_info['id'], user_agent)
-    
+    delete_refresh_token(user_info["id"], user_agent)
+
     return {}, HTTPStatus.OK

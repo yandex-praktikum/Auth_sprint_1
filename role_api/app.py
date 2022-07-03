@@ -15,14 +15,14 @@ from api.v1 import roles
 from api.v1 import user
 from api.v1 import check
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder="templates")
 
-app.config['JWT_SECRET_KEY'] = settings.JWT_SECRET_KEY
-app.config['HOST'] = settings.role_app_host
-app.config['PORT'] = settings.role_app_port
-app.config['DEBUG'] = settings.debug
+app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
+app.config["HOST"] = settings.role_app_host
+app.config["PORT"] = settings.role_app_port
+app.config["DEBUG"] = settings.debug
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 app.app_context().push()
 
@@ -34,5 +34,7 @@ app.register_blueprint(role.role_blueprint)
 app.register_blueprint(main.main_blueprint)
 
 
-if __name__ == '__main__':
-    app.run(host=settings.role_app_host, port=settings.role_app_port, debug=settings.debug)
+if __name__ == "__main__":
+    app.run(
+        host=settings.role_app_host, port=settings.role_app_port, debug=settings.debug
+    )

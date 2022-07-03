@@ -29,7 +29,7 @@ def backoff(
     factor: int = 2,
     max_timeout: int = 3,
     max_tries: int = 10,
-    logger: Logger = logger
+    logger: Logger = logger,
 ) -> Callable:
     """Backoff functional decorator."""
 
@@ -44,8 +44,10 @@ def backoff(
                 handle_errors(err)
                 time.sleep(timeout)
                 timeout = min(initial * (attempts**factor), max_timeout)
-                logger.error(f"Backoff attempt fail with timeout \
-{timeout}, {err}")
+                logger.error(
+                    f"Backoff attempt fail with timeout \
+{timeout}, {err}"
+                )
                 attempts += 1
                 continue
             finally:

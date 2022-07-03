@@ -13,6 +13,7 @@ def get_user(login: str):
     user = User.query.filter_by(login=login).one_or_none()
     return user
 
+
 def post_user(user):
     try:
         if type(user) == dict:
@@ -21,4 +22,4 @@ def post_user(user):
         db.session.commit()
     except IntegrityError:
         return None
-    return 'OK'
+    return "OK"

@@ -14,13 +14,13 @@ from utils.passwords import hash_password, verify_password
 from pages.auth import auth_blueprint
 
 
-@auth_blueprint.route('/user', methods=['PUT'])
+@auth_blueprint.route("/user", methods=["PUT"])
 @jwt_required()
 def update_user():
-    login = request.form.get('login')
-    password = request.form.get('password')
-    new_login = request.form.get('new_login')
-    new_password = request.form.get('new_password')
+    login = request.form.get("login")
+    password = request.form.get("password")
+    new_login = request.form.get("new_login")
+    new_password = request.form.get("new_password")
 
     # Пороверяем, что ползователь есть
     user = get_user(login)

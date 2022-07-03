@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/tests")
 import time
 import logging
@@ -22,19 +23,19 @@ USERS = [
         "login": "user1",
         "email": "email1@yandex.ru",
         "name": "ruuu1",
-        "password": "password1"
+        "password": "password1",
     },
     {
         "login": "user2",
         "email": "email2@yandex.ru",
         "name": "ruuu2",
-        "password": "password2"
+        "password": "password2",
     },
     {
         "login": "user3",
         "email": "email3@yandex.ru",
         "name": "ruuu3",
-        "password": "password3"
+        "password": "password3",
     },
 ]
 
@@ -57,28 +58,29 @@ ROLES = [
 ]
 
 ADMIN_ROLE = {
-        "role": "admin",
-        "description": "test",
-        "rule": "admin",
-    }
+    "role": "admin",
+    "description": "test",
+    "rule": "admin",
+}
 
 ADMIN_USER = {
     "login": os.environ.get("ADMIN_LOGIN"),
     "password": os.environ.get("ADMIN_PASSWORD"),
 }
 
+
 async def test_role_lifecicle(make_request):
     # login as admin
     print(ADMIN_USER)
     response = await make_request(SERVICE_AUTH, "POST", "login", ADMIN_USER)
-    
+
     assert response.status in [HTTPStatus.OK]
     assert len(response.body) == 2
     assert "access_token" in response.body
     assert "refresh_token" in response.body
 
     headers = {
-        'Authorization': 'Bearer ' + response.body["access_token"],
+        "Authorization": "Bearer " + response.body["access_token"],
     }
 
     # get all roles
@@ -99,12 +101,16 @@ async def test_role_lifecicle(make_request):
     assert "role1" == response.body[0]["role"]
 
     # check this role
-    response = await make_request(SERVICE_ROLE, "GET", f"role/{roles[0]['id']}",  headers=headers)
+    response = await make_request(
+        SERVICE_ROLE, "GET", f"role/{roles[0]['id']}", headers=headers
+    )
     assert response.status in [HTTPStatus.OK]
     assert response == roles[0]
 
     # delete this role
-    response = await make_request(SERVICE_ROLE, "DELETE", f"role/{roles[0]['id']}",  headers=headers)
+    response = await make_request(
+        SERVICE_ROLE, "DELETE", f"role/{roles[0]['id']}", headers=headers
+    )
     assert response.status in [HTTPStatus.OK]
 
     response = await make_request(SERVICE_ROLE, "GET", "roles", headers=headers)

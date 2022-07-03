@@ -8,12 +8,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Settings(BaseSettings):
     """Dataclass for settings."""
 
     debug: bool = Field(False, env="DEBUG")
     batch_size: int = 100
-    
+
     redis_db: str = Field("movies", env="REDIS_DB")
     redis_port: int = Field(6379, env="REDIS_PORT")
     redis_host: str = Field("127.0.0.1", env="REDIS_HOST")
@@ -40,7 +41,7 @@ class Settings(BaseSettings):
     auth_api_port: int = Field(5001, env="AUTH_APP_PORT")
 
     JWT_SECRET_KEY: str = Field("JWT_SECRET_KEY", env="JWT_SECRET_KEY")
-    
+
     class Config:
         case_sensitive = False
 

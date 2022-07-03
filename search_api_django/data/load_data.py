@@ -98,7 +98,9 @@ def conn_context(settings: UploadSettings) -> Iterator[Tuple[sqlite3.Row, _conne
     pg_conn = None
 
     try:
-        pg_conn = psycopg2.connect(**settings.get_psycopg_dict(), cursor_factory=DictCursor)
+        pg_conn = psycopg2.connect(
+            **settings.get_psycopg_dict(), cursor_factory=DictCursor
+        )
     except psycopg2.OperationalError as err:
         handle_psycopg2_errors(err)
 
@@ -170,7 +172,9 @@ def load_from_sqlite(settings: UploadSettings) -> NoReturn:
             db_name = settings.output_dbname
             logging.info(table_name)
             dataclass_ = table2dataclass[table_name]
-            upload_table(cur, pg_cur, dataclass_, table_name, db_name, settings.batch_size)
+            upload_table(
+                cur, pg_cur, dataclass_, table_name, db_name, settings.batch_size
+            )
         try:
             pg_conn.commit()
         except Exception as err:

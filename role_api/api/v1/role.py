@@ -27,10 +27,10 @@ def put_role(role_id):
     if not user["role"] in ["admin"]:
         return {}, HTTPStatus.UNAUTHORIZED
     role_dict = {}
-    role_id = request.form.get('role_id')
-    role_dict['role'] = request.form.get('role')
-    role_dict['description'] = request.form.get('description')
-    role_dict['rule'] = request.form.get('rule')
+    role_id = request.form.get("role_id")
+    role_dict["role"] = request.form.get("role")
+    role_dict["description"] = request.form.get("description")
+    role_dict["rule"] = request.form.get("rule")
 
     existing_role = Role.query(id=role_id).one_or_none()
     if not existing_role:
@@ -38,11 +38,12 @@ def put_role(role_id):
         db.session.add(role)
         db.session.commit()
         return {}, HTTPStatus.OK
-    existing_role.role = role_dict['role']
-    existing_role.description = role_dict['description']
-    existing_role.rule = role_dict['rule']
+    existing_role.role = role_dict["role"]
+    existing_role.description = role_dict["description"]
+    existing_role.rule = role_dict["rule"]
     db.session.commit()
     return {}, HTTPStatus.OK
+
 
 @role_blueprint.route("/role/<role_id>", methods=["DELETE"])
 @jwt_required()

@@ -19,10 +19,10 @@ from db.refresh import push_refresh_token
 from db.auth import post_auth_record
 
 
-@auth_blueprint.route('/login', methods=['POST'])
+@auth_blueprint.route("/login", methods=["POST"])
 def login_post():
-    login = request.form.get('login')
-    password = request.form.get('password')
+    login = request.form.get("login")
+    password = request.form.get("password")
 
     # Проверяем парроль
     user = get_user(login)
@@ -49,23 +49,22 @@ def login_post():
         push_refresh_token(user.id, user_agent, jti)
 
     # Создаем запись о входе в акаунт
-    auth_dict = {
-        'user_id': user.id,
-        'user_agent': request.user_agent.string
-    }
+    auth_dict = {"user_id": user.id, "user_agent": request.user_agent.string}
     post_auth_record(auth_dict)
 
-    return jsonify(access_token=access_token, refresh_token=refresh_token), \
-        HTTPStatus.OK
+    return (
+        jsonify(access_token=access_token, refresh_token=refresh_token),
+        HTTPStatus.OK,
+    )
 
 
-@auth_blueprint.route('/login', methods=['GET'])
+@auth_blueprint.route("/login", methods=["GET"])
 @jwt_required()
 def info_get():
     user_info = get_jwt_identity()
-    auth_records = get_auth_records(user_info['id'])
-    auth_records = [{
-        'user_agent': item.user_agent,
-        'date_time': item.date_time
-    } for item in auth_records]
+    auth_records = get_auth_records(user_info["id"])
+    auth_records = [
+        {"user_agent": item.user_agent, "date_time": item.date_time}
+        for item in auth_records
+    ]
     return jsonify(auth_records), HTTPStatus.OK

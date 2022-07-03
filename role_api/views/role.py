@@ -5,4 +5,4 @@
 
 from flask import Blueprint
 
-role_blueprint = Blueprint('role', __name__, url_prefix="/api/v1/")
+role_blueprint = Blueprint("role", __name__, url_prefix="/api/v1/")

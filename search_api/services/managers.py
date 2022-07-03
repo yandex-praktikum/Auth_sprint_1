@@ -35,7 +35,6 @@ class PaginatedParams:
 
 
 class CachableInterface(ABC):
-
     @abstractmethod
     async def get_from_cache(self, cache_key):
         ...
@@ -46,14 +45,12 @@ class CachableInterface(ABC):
 
 
 class DatastorageInterface(ABC):
-
     @abstractmethod
     async def get_from_datastore(self):
         ...
 
 
 class ElasticDatastorageMixIn(DatastorageInterface):
-
     async def elastic_get(self, elastic, *args, **kwargs):
         try:
             doc = await elastic.get(*args, **kwargs)
@@ -72,7 +69,6 @@ class ElasticDatastorageMixIn(DatastorageInterface):
 
 
 class ServiceManagerMixin(ABC):
-
     def __init__(
         self,
         index_name: str,
@@ -85,8 +81,10 @@ class ServiceManagerMixin(ABC):
         self.paginated_params = paginated_params
         self.index_name = index_name
         if bool(item_id) + bool(combined_filter) != 1:
-            raise Exception("Something wrong happens \
-that I don't understand (AK)")
+            raise Exception(
+                "Something wrong happens \
+that I don't understand (AK)"
+            )
         self.item_id = item_id
         self.combined_filter = combined_filter
         self.combined_sorter = combined_sorter
@@ -117,7 +115,8 @@ that I don't understand (AK)")
         combined_sorter = None
         if self.combined_sorter:
             combined_sorter = self.combined_sorter.cache_key
-        return "::".join([
+        return "::".join(
+            [
                 self.index_name,
                 "combined_filter",
                 str(combined_filter),
@@ -129,7 +128,8 @@ that I don't understand (AK)")
                 str(self.paginated_params.from_),
                 "size",
                 str(self.paginated_params.size),
-            ])
+            ]
+        )
 
     async def get_result(self, cache_storage, data_storage):
         """Get data from cache or from Elastic"""
@@ -142,24 +142,18 @@ that I don't understand (AK)")
         return result
 
 
-class SingleServiceManager(ServiceManagerMixin,
-                           CachableInterface,
-                           ElasticDatastorageMixIn):
-
-    async def get_from_datastore(self,
-                                 data_storage: AsyncDataStorage):
-        doc = await self.elastic_get(data_storage,
-                                     self.index_name,
-                                     self.item_id)
+class SingleServiceManager(
+    ServiceManagerMixin, CachableInterface, ElasticDatastorageMixIn
+):
+    async def get_from_datastore(self, data_storage: AsyncDataStorage):
+        doc = await self.elastic_get(data_storage, self.index_name, self.item_id)
         return doc
 
 
-class MultipleServiceManager(ServiceManagerMixin,
-                             CachableInterface,
-                             ElasticDatastorageMixIn):
-
-    async def get_from_datastore(self,
-                                 data_storage: AsyncDataStorage) -> list:
+class MultipleServiceManager(
+    ServiceManagerMixin, CachableInterface, ElasticDatastorageMixIn
+):
+    async def get_from_datastore(self, data_storage: AsyncDataStorage) -> list:
 
         search_body = {"query": {"bool": {}}}
         if self.combined_filter:
