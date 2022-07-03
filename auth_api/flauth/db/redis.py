@@ -17,7 +17,7 @@ JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=int(settings.JWT_ACCESS_TOKEN_EXPIRES_
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=int(settings.JWT_REFRESH_TOKEN_EXPIRES_DAYS))
 
 def blocklist_push(jwt: Any):
-    redis_db.set(jwt, "", ex=settings["JWT_ACCESS_TOKEN_EXPIRES"])
+    redis_db.set(jwt, "", ex=JWT_ACCESS_TOKEN_EXPIRES)
 
 def blocklist_delete(jwt: Any):
     redis_db.delete(jwt)

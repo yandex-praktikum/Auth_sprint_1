@@ -10,4 +10,6 @@ RUN pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r /app/requirements.txt
 # Добавляем внутрь образа папку с приложением 
 ADD flauth /app/flauth
-CMD ["python3", "/app/flauth/wsgi_app.py"]
+ADD entrypoint.sh /app/
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -25,7 +25,6 @@ import os
 
 from functional.settings import settings
 
-
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 @dataclass
@@ -77,82 +76,45 @@ async def session() -> AsyncGenerator[aiohttp.ClientSession, None]:
 
 
 @pytest_asyncio.fixture
-async def make_get_request(session):
-    async def inner(method: str = '', params: dict = None) -> HTTPResponse:
+async def make_request(session):
+    async def inner(service: str = '',
+                    method: str = '', 
+                    path: str = '', 
+                    data: dict = None, 
+                    params: dict = None,
+                    **kwargs
+                ) -> HTTPResponse:
         params = params or {}
-        url = '{service}/api/v1/{method}'.format(
-            service=f"{settings.search_api_port}:{settings.search_api_host}",
-            method=method,
-        )
-        async with session.get(url, params=params) as response:
-            return HTTPResponse(
-                body=await response.json(),
-                headers=response.headers,
-                status=response.status,
+        url = f'http://{service}/api/v1/{path}'
+        if method == "GET":
+            async with session.get(url, params=params, **kwargs) as response:
+                return HTTPResponse(
+                    body=await response.json(),
+                    headers=response.headers,
+                    status=response.status,
+            )
+        elif method == "POST":
+            async with session.post(url, data=data, params=params, **kwargs) as response:
+                return HTTPResponse(
+                    body=await response.json(),
+                    headers=response.headers,
+                    status=response.status,
+            )
+        elif method == "DELETE":
+            async with session.delete(url, data=data, params=params, **kwargs) as response:
+                return HTTPResponse(
+                    body=await response.json(),
+                    headers=response.headers,
+                    status=response.status,
+            )
+        elif method == "PUT":
+            async with session.put(url, data=data, params=params, **kwargs) as response:
+                return HTTPResponse(
+                    body=await response.json(),
+                    headers=response.headers,
+                    status=response.status,
             )
     return inner
-
-
-@pytest_asyncio.fixture(scope='session', autouse=True)
-async def fill_elastic_data(es_client: AsyncElasticsearch,
-                            clear_cache: Callable):
-    # создаем все схемы
-    index_dict = {
-            'movies': '/../testdata/indexes/films.json',
-            'genres': '/../testdata/indexes/genres.json',
-            'persons': '/../testdata/indexes/persons.json'
-        }
-    for index, schema_path in index_dict.items():
-        async with aiofiles.open(os.path.dirname(__file__)+schema_path,
-                                 'r') as f:
-            schema = json.loads(await f.read())
-        try:
-            await es_client.indices.create(
-                index=index,
-                body=schema
-            )
-        except RequestError:
-            pass
-    logging.info("Indexes was created")
-    # выгружаем данные
-    data_dict = {
-        'movies': '/../testdata/data/films.json',
-        'genres': '/../testdata/data/genres.json',
-        'persons': '/../testdata/data/persons.json'
-    }
-    for index_name, data_path in data_dict.items():
-        async with aiofiles.open(os.path.dirname(__file__)+data_path,
-                                 'r') as f:
-            data = json.loads(await f.read())
-        actions = [
-            {
-                "_index": index_name,
-                "_id": doc['uuid'],
-                '_type': '_doc',
-                **doc
-            }
-            for doc in data
-        ]
-        logging.info(es_client)
-        await async_bulk(es_client, actions)
-        data_dict[index_name] = data
-    logging.info("Data was bulk")
-    try:
-        yield
-    finally:
-        for index_name, data in data_dict.items():
-            delete_data = [
-                {
-                    '_op_type': 'delete',
-                    '_index': index_name,
-                    '_type': '_doc',
-                    '_id': doc['uuid'],
-                    **doc
-                }
-                for doc in data]
-            await async_bulk(es_client, delete_data)
-            logging.info("Data was deleted")
-        await clear_cache()
 
 
 @pytest.fixture(scope="session")

@@ -3,8 +3,15 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+import sys
+
+
+sys.path.append(".")
+
+from asyncio.log import logger
 from flask import Flask
 from db.user import post_user
+from db.user import get_user
 from utils.passwords import hash_password
 from db.db import init_db
 from config import settings
@@ -31,6 +38,7 @@ app.config['HOST'] = settings.auth_app_host
 app.config['PORT'] = settings.auth_app_port
 app.config['DEBUG'] = settings.debug
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.app_context().push()
 
@@ -54,18 +62,17 @@ def create_user(login, email, name, password):
     user_dict['login'] = login
     user_dict['email'] = email
     user_dict['name'] = name
-    user_dict['password'] = password
     user_dict['role'] = "admin"
     user_dict['hash_password'] = hash_password(password)
-    post_user(user_dict)
-
+    user = get_user(login)
+    if not user:
+        status = post_user(user_dict)
+        print("Admin user created with status", status)
+    else:
+        print("Admin user exists", status)
+    
 app.cli.add_command(user_cli)
 
 
 if __name__ == '__main__':
     app.run(host=settings.auth_app_host, port=settings.auth_app_port, debug=settings.debug)
-
-
-
-
-

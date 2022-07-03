@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS users.users (
     role TEXT NOT NULL,
     created timestamp with time zone
 );
+CREATE UNIQUE INDEX IF NOT EXISTS _user_email ON users.users(email);
 
 DROP TABLE IF EXISTS users.auth;
 
@@ -106,3 +107,5 @@ CREATE TABLE IF NOT EXISTS users.refresh (
     user_agent TEXT NOT NULL,
     refresh_token TEXT NOT NULL
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS _user_id_agent ON users.refresh(user_id, user_agent);

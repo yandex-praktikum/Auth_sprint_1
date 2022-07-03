@@ -23,6 +23,9 @@ def get_user_roles(user_id):
 @role_blueprint.route("/user/{user_id}/{role_id}", methods=["PUT"])
 @jwt_required()
 def add_role_to_user(user_id, role_id):
+    user = get_jwt_identity()
+    if not user["role"] in ["admin"]:
+        return {}, HTTPStatus.UNAUTHORIZED
     role = UserRole(user_id=user_id, role_id=role_id)
     db.session.add(role)
     db.session.commit()
@@ -31,5 +34,8 @@ def add_role_to_user(user_id, role_id):
 @role_blueprint.route("/user/{user_id}/{role_id}", methods=["DELETE"])
 @jwt_required()
 def delete_role_from_user(user_id, role_id):
+    user = get_jwt_identity()
+    if not user["role"] in ["admin"]:
+        return {}, HTTPStatus.UNAUTHORIZED
     Role.query.filter_by(user_id=user_id, role_id=role_id).delete()
     return {}, HTTPStatus.OK

@@ -3,6 +3,7 @@ elasticsearch[async]==7.9.1
 fastapi==0.61.1
 pydantic==1.9.0
 pytest==7.1.2
+python-dotenv==0.20.0
 pytest-asyncio==0.18.3
 aiofiles==0.8.0
 python-dotenv==0.20.0

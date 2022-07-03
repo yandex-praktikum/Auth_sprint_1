@@ -13,7 +13,7 @@ load_dotenv()
 class Settings(BaseSettings):
     """Dataclass for settings."""
 
-    debug: bool = True
+    debug: bool = Field(False, env="DEBUG")
     batch_size: int = 100
     
     redis_db: str = Field("movies", env="REDIS_DB")

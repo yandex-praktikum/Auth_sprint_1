@@ -73,8 +73,3 @@ class RefreshToken(db.Model):
     refresh_token = Column(String,
                            nullable=False)
 
-    __table_args__ = (UniqueConstraint(
-        'user_id',
-        'user_agent',
-        name='_user_id__agent'
-    ), )
