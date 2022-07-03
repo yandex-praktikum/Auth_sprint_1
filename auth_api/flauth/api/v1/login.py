@@ -55,11 +55,14 @@ def login_post():
     )
 
 
-@auth_blueprint.route("/login", methods=["GET"])
+@auth_blueprint.route("/login/<page>", methods=["GET"])
 @jwt_required()
-def info_get():
+def info_get(page: int):
     user_info = get_jwt_identity()
-    auth_records = get_auth_records(user_info["id"])
+    if not page.isnumeric():
+        return {}, HTTPStatus.BAD_REQUEST
+    page = int(page)
+    auth_records = get_auth_records(user_info["id"], page=page)
     auth_records = [
         {"user_agent": item.user_agent, "date_time": item.date_time}
         for item in auth_records

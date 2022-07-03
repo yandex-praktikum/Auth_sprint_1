@@ -56,13 +56,20 @@ paths:
                 type: string
         401:
           description: Wrong token
-  /login:
+  /login/{page}:
     get:
       operationId: auth.info_get
       summary: Information about auth jwt is nedded
       responses:
         200:
           description: auth records
+      parameters:
+        - in: path
+          name: page
+          schema:
+            type: integer
+          required: true
+          description: Page for pagination
       schema:
           type: object
           properties:
