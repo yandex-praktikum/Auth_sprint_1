@@ -23,6 +23,9 @@ def get_role(role_id):
 @role_blueprint.route("/role/<role_id>", methods=["PUT"])
 @jwt_required()
 def put_role(role_id):
+    user = get_jwt_identity()
+    if not user["role"] in ["admin"]:
+        return {}, HTTPStatus.UNAUTHORIZED
     role_dict = {}
     role_id = request.form.get('role_id')
     role_dict['role'] = request.form.get('role')
@@ -44,4 +47,7 @@ def put_role(role_id):
 @role_blueprint.route("/role/<role_id>", methods=["DELETE"])
 @jwt_required()
 def delete_role(role_id):
+    user = get_jwt_identity()
+    if not user["role"] in ["admin"]:
+        return {}, HTTPStatus.UNAUTHORIZED
     Role.query.filter_by(id=role_id).delete()

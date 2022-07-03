@@ -25,6 +25,9 @@ def check_role():
 @role_blueprint.route("/check/<userid>/<role>", methods=["GET"])
 @jwt_required()
 def check_user_and_role(userid, role):
+    user = get_jwt_identity()
+    if not user["role"] in ["admin"]:
+        return {}, HTTPStatus.UNAUTHORIZED
     hit = UserRole.query(role_id=role, user_id=userid).one_or_none()
     if hit:
         return {}, HTTPStatus.OK

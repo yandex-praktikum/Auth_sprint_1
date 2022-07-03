@@ -6,7 +6,10 @@ from functional.settings import settings
 
 import pytest
 from http import HTTPStatus
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 SERVICE = f"{settings.auth_api_host}:{settings.auth_api_port}"
 
@@ -43,6 +46,7 @@ async def test_signup(make_request):
     assert response.status in [HTTPStatus.CREATED]
     assert response.body == {}
 
+
 async def test_signup_if_user_exist(make_request):
     """Тестирование повторной регистрации"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
@@ -51,6 +55,7 @@ async def test_signup_if_user_exist(make_request):
     
     assert response.status in [HTTPStatus.CONFLICT]
     assert response.body == {}
+
 
 async def test_login(make_request):
     """Тестирование входа"""
@@ -67,6 +72,7 @@ async def test_login(make_request):
     assert "access_token" in response.body
     assert "refresh_token" in response.body
 
+
 async def test_login_wrong_login(make_request):
     """Тестирование входа с несуществующим логином"""
     login_info = {
@@ -79,6 +85,7 @@ async def test_login_wrong_login(make_request):
     assert response.status in [HTTPStatus.BAD_REQUEST]
     assert response.body == {}
 
+
 async def test_login_wrong_login(make_request):
     """Тестирование входа с неправильным паролем"""
     login_info = {
@@ -90,6 +97,7 @@ async def test_login_wrong_login(make_request):
 
     assert response.status in [HTTPStatus.UNAUTHORIZED]
     assert response.body == {}
+
 
 async def test_login_get(make_request):
     """Тестирование получния данных о заходах в аккаунт"""
@@ -111,6 +119,7 @@ async def test_login_get(make_request):
     assert "user_agent" in response.body[0]
     assert "date_time" in response.body[0]
 
+
 async def test_login_get_wrong(make_request):
     """Тестирование получния данных о заходах в аккаунт для неправильного токена"""
     headers = {
@@ -121,7 +130,8 @@ async def test_login_get_wrong(make_request):
 
     assert response.status in [HTTPStatus.UNPROCESSABLE_ENTITY]
 
-async def test_refresh_tocken(make_request):
+
+async def test_refresh_token(make_request):
     """Проверка обновления токенов"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
     login_info = {
@@ -141,7 +151,8 @@ async def test_refresh_tocken(make_request):
     assert "access_token" in response.body
     assert "refresh_token" in response.body
 
-async def test_refresh_tocken_duble(make_request):
+
+async def test_refresh_token_duble(make_request):
     """Проверка обновления токенов при повторе одного токена"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
     login_info = {
@@ -160,6 +171,7 @@ async def test_refresh_tocken_duble(make_request):
     assert response.status in [HTTPStatus.UNAUTHORIZED]
     assert response.body == {}
 
+
 async def test_logout(make_request):
     """Проверка выхода из акаутна"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
@@ -177,6 +189,7 @@ async def test_logout(make_request):
 
     assert response.status in [HTTPStatus.OK]
     assert response.body == {}
+
 
 async def test_logout_refresh(make_request):
     """Проверка работоспособности refresh токена при выходе из акаунта"""
@@ -201,6 +214,7 @@ async def test_logout_refresh(make_request):
     assert response.status in [HTTPStatus.UNAUTHORIZED]
     assert response.body == {}
 
+
 async def test_logout_login_info(make_request):
     """Проверка работоспособности access токена при выходе из акаунта"""
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
@@ -219,5 +233,22 @@ async def test_logout_login_info(make_request):
 
     assert response.status in [HTTPStatus.UNAUTHORIZED]
 
-    
+async def test_admin_user(make_request):
 
+    ADMIN_USER = {
+        "login": os.environ.get("ADMIN_LOGIN"),
+        "password": os.environ.get("ADMIN_PASSWORD"),
+    }
+
+    response = await make_request(SERVICE, "POST", "login", ADMIN_USER)
+    access_token = response.body["access_token"]
+    headers = {
+        'Authorization': 'Bearer ' + access_token
+    }
+
+    response = await make_request(SERVICE, "GET", "login", headers=headers)
+
+    assert response.status in [HTTPStatus.OK]
+    assert len(response.body) != 0
+    assert "user_agent" in response.body[0]
+    assert "date_time" in response.body[0]

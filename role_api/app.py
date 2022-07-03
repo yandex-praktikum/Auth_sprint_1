@@ -22,6 +22,7 @@ app.config['HOST'] = settings.role_app_host
 app.config['PORT'] = settings.role_app_port
 app.config['DEBUG'] = settings.debug
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.app_context().push()
 
