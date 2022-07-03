@@ -4,10 +4,8 @@
 # @author: Aleksey Komissarov
 # @contact: ad3002@gmail.com
 
-from models import MovieModel
-from models import PersonModel
-from models import GenreModel
 from config import Settings
+from models import GenreModel, MovieModel, PersonModel
 
 settings = Settings()
 

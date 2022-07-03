@@ -2,29 +2,23 @@ import sys
 
 sys.path.append("/tests")
 
-import aiohttp
-import pytest_asyncio
-import json
 import asyncio
-import aiofiles
-import pytest
-
-from typing import Any, Callable
-from dataclasses import dataclass
-from multidict import CIMultiDictProxy
-from elasticsearch import AsyncElasticsearch
-
-from typing import AsyncGenerator
-
-from aioredis import create_redis_pool, Redis
-from elasticsearch.helpers import async_bulk
-from elasticsearch.exceptions import RequestError
-
+import json
 import logging
 import os
+from dataclasses import dataclass
+from typing import Any, AsyncGenerator, Callable
 
-
+import aiofiles
+import aiohttp
+import pytest
+import pytest_asyncio
+from aioredis import Redis, create_redis_pool
+from elasticsearch import AsyncElasticsearch
+from elasticsearch.exceptions import RequestError
+from elasticsearch.helpers import async_bulk
 from functional.settings import settings
+from multidict import CIMultiDictProxy
 
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.INFO)
 

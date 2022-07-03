@@ -3,8 +3,8 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from pydantic import BaseSettings, Field
 from dotenv import load_dotenv
+from pydantic import BaseSettings, Field
 
 load_dotenv()
 

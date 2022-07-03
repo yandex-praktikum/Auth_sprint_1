@@ -3,8 +3,8 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from db.db_models import AuthRecord
 from db.db import db
+from db.db_models import AuthRecord
 
 
 def get_auth_records(user_id):

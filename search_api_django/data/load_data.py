@@ -11,15 +11,14 @@ import sys
 import traceback
 from contextlib import contextmanager
 from dataclasses import dataclass
-from dotenv import load_dotenv
 from typing import Iterator, NoReturn, Tuple
 
 import psycopg2
+from dotenv import load_dotenv
+from models import Filmwork, Genre, GenreFilmwork, Person, PersonFilmwork
 from psycopg2.extensions import connection as _connection
 from psycopg2.extras import DictCursor
 from psycopg2.sql import SQL, Identifier, Placeholder
-
-from models import Filmwork, Genre, GenreFilmwork, Person, PersonFilmwork
 
 load_dotenv()
 

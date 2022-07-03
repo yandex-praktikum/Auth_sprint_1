@@ -8,7 +8,6 @@ import sys
 sys.path.append("..")
 from connections import check_connection
 
-
 if __name__ == "__main__":
 
     service_name = sys.argv[1]

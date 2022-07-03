@@ -1,9 +1,9 @@
 """ Django settings for config project."""
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
-from pathlib import Path
 from split_settings.tools import include
 
 # Load enviroment variables.

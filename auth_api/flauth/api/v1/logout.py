@@ -3,16 +3,14 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from flask import request
-from flask import jsonify
-from flask_jwt_extended import jwt_required
 from http import HTTPStatus
 
-from db.refresh import delete_refresh_token
-
-from utils.jwt_tokens import get_jwt, get_jwt_identity
-from pages.auth import auth_blueprint
 from db.redis import blocklist_push
+from db.refresh import delete_refresh_token
+from flask import jsonify, request
+from flask_jwt_extended import jwt_required
+from pages.auth import auth_blueprint
+from utils.jwt_tokens import get_jwt, get_jwt_identity
 
 
 @auth_blueprint.route("/logout", methods=["DELETE"])

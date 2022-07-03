@@ -5,10 +5,11 @@
 # @contact: ad3002@gmail.com
 
 import uuid
+
+from db import db
 from flask import Flask
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from db import db
 
 
 class Role(db.Model):

@@ -3,16 +3,14 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from flask import request
-from flask import jsonify
-from flask_jwt_extended import jwt_required
 from http import HTTPStatus
 
 from db.refresh import pull_refresh_token, update_refresh_token
-
-from utils.jwt_tokens import get_access_token, get_refresh_token
-from utils.jwt_tokens import get_jwt, get_jwt_identity
+from flask import jsonify, request
+from flask_jwt_extended import jwt_required
 from pages.auth import auth_blueprint
+from utils.jwt_tokens import (get_access_token, get_jwt, get_jwt_identity,
+                              get_refresh_token)
 
 
 @auth_blueprint.route("/refresh", methods=["POST"])

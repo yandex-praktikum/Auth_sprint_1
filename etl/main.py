@@ -15,12 +15,11 @@ from backoff import backoff_decorator
 from config import Settings, check_pid, logger
 from extractors import iter_bulk_extractor
 from initiation import create_index
+from queries import query_films, query_genres, query_persons
 from state import State
 from storage import RedisStorage
-from transformers import transformer_films
-from transformers import transformer_persons
-from transformers import transformer_genres
-from queries import query_films, query_genres, query_persons
+from transformers import (transformer_films, transformer_genres,
+                          transformer_persons)
 
 
 class SingletonError(Exception):

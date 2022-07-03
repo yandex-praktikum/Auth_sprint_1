@@ -1,7 +1,6 @@
+from config import logger, settings
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import settings, logger
-
 
 db = SQLAlchemy()
 

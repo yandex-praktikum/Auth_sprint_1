@@ -8,14 +8,13 @@ import datetime
 import sqlite3
 import sys
 from dataclasses import dataclass
-from dotenv import load_dotenv
 from typing import NoReturn
 
 import psycopg2
+from dotenv import load_dotenv
 
 sys.path.append("..")
 from load_data import UploadSettings, conn_context, table2dataclass
-
 
 load_dotenv()
 

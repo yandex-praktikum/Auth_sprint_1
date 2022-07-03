@@ -6,10 +6,10 @@
 
 from http import HTTPStatus
 
-from flask import jsonify
-from views.role import role_blueprint
 from db_models import Role
+from flask import jsonify
 from flask_jwt_extended import jwt_required
+from views.role import role_blueprint
 
 
 @role_blueprint.route("/roles", methods=["GET"])

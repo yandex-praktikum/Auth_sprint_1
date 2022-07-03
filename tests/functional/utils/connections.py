@@ -7,9 +7,10 @@ import logging
 import socket
 from contextlib import closing
 
-from elasticsearch import Elasticsearch
 from backoff import backoff
+from elasticsearch import Elasticsearch
 from functional.settings import settings
+
 from redis import Redis
 
 logging.basicConfig(level="INFO")

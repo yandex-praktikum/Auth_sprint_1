@@ -1,14 +1,14 @@
 import sys
 
 sys.path.append("/tests")
-import time
 import logging
-from functional.settings import settings
+import os
+import time
+from http import HTTPStatus
 
 import pytest
-from http import HTTPStatus
-import os
 from dotenv import load_dotenv
+from functional.settings import settings
 
 load_dotenv()
 

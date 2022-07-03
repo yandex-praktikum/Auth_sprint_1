@@ -5,9 +5,10 @@
 
 from datetime import timedelta
 from typing import Any
-from config import settings
-import redis
 
+from config import settings
+
+import redis
 
 redis_db = redis.StrictRedis(
     host=settings.redis_host,

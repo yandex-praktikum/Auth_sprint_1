@@ -3,17 +3,12 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from flask import Flask
+from api.v1 import check, role, roles, user
 from db import init_db
+from flask import Flask
 from settings import settings
-from views import role
-from views import main
 from utils.jwt_tokens import jwt
-
-from api.v1 import role
-from api.v1 import roles
-from api.v1 import user
-from api.v1 import check
+from views import main, role
 
 app = Flask(__name__, template_folder="templates")
 

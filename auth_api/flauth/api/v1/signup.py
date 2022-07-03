@@ -3,14 +3,12 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
-from flask import request
 from http import HTTPStatus
 
 from db.user import get_user, post_user
-
-from utils.passwords import hash_password
-
+from flask import request
 from pages.auth import auth_blueprint
+from utils.passwords import hash_password
 
 
 @auth_blueprint.route("/signup", methods=["POST"])

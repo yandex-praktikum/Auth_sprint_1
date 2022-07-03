@@ -1,17 +1,18 @@
 import sys
 
 sys.path.append("/tests")
-import time
 import logging
-from functional.settings import settings
 import os
+import time
+
 from dotenv import load_dotenv
+from functional.settings import settings
 
 load_dotenv()
 
-import pytest
 from http import HTTPStatus
 
+import pytest
 
 SERVICE_AUTH = f"{settings.auth_api_host}:{settings.auth_api_port}"
 SERVICE_ROLE = f"{settings.auth_api_host}:{settings.auth_api_port}"

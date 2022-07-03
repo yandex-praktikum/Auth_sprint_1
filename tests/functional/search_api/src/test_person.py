@@ -1,7 +1,6 @@
-import pytest
-
 from http import HTTPStatus
 
+import pytest
 
 pytestmark = pytest.mark.asyncio
 

@@ -6,9 +6,11 @@
 
 
 from typing import Any
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from settings import settings
+
 import redis
 
 db = SQLAlchemy()

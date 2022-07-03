@@ -5,30 +5,20 @@
 
 import sys
 
-
 sys.path.append(".")
 
 from asyncio.log import logger
-from flask import Flask
-from db.user import post_user
-from db.user import get_user
-from utils.passwords import hash_password
-from db.db import init_db
-from config import settings, logger
-from pages import auth
-from pages import main
-from utils.jwt_tokens import jwt
-
-from api.v1 import login
-from api.v1 import signup
-from api.v1 import logout
-from api.v1 import user
-from api.v1 import refresh
 
 import click
+from api.v1 import login, logout, refresh, signup, user
+from config import logger, settings
+from db.db import init_db
+from db.user import get_user, post_user
 from flask import Flask
 from flask.cli import AppGroup
-
+from pages import auth, main
+from utils.jwt_tokens import jwt
+from utils.passwords import hash_password
 
 app = Flask(__name__, template_folder="templates")
 
