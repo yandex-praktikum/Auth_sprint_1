@@ -5,10 +5,11 @@
 
 from http import HTTPStatus
 
-from db.redis import blocklist_push
-from db.refresh import delete_refresh_token
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
+
+from db.redis import blocklist_push
+from db.refresh import delete_refresh_token
 from pages.auth import auth_blueprint
 from utils.jwt_tokens import get_jwt, get_jwt_identity
 

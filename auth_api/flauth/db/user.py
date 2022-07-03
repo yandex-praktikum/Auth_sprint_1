@@ -3,9 +3,10 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+from sqlalchemy.exc import IntegrityError
+
 from db.db import db
 from db.db_models import User
-from sqlalchemy.exc import IntegrityError
 
 
 def get_user(login: str):

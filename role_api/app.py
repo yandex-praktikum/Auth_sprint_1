@@ -3,6 +3,10 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+import sys
+
+sys.path.append(".")
+
 from api.v1 import check, role, roles, user
 from db import db, init_db
 from flask import Flask

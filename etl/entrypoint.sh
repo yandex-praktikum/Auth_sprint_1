@@ -20,7 +20,7 @@ while ! nc -z $ELASTIC_HOST $ELASTIC_PORT; do
 done
 echo "Elastic started"
 
-export PGPASSWORD=$POSTGRES_PASSWORD
-psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -f /app/init.sql
+# export PGPASSWORD=$POSTGRES_PASSWORD
+# psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -f /app/init.sql
 
 exec "$@"

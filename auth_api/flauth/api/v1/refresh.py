@@ -5,9 +5,10 @@
 
 from http import HTTPStatus
 
-from db.refresh import pull_refresh_token, update_refresh_token
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
+
+from db.refresh import pull_refresh_token, update_refresh_token
 from pages.auth import auth_blueprint
 from utils.jwt_tokens import (get_access_token, get_jwt, get_jwt_identity,
                               get_refresh_token)

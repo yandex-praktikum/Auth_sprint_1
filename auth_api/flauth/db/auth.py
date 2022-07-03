@@ -8,7 +8,9 @@ from db.db_models import AuthRecord
 
 
 def get_auth_records(user_id, page=1, per_page=20):
-    auth_records = AuthRecord.query.filter_by(user_id=user_id).paginate(page, per_page, False)
+    auth_records = AuthRecord.query.filter_by(user_id=user_id).paginate(
+        page, per_page, False
+    )
     return auth_records
 
 

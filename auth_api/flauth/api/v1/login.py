@@ -5,12 +5,13 @@
 
 from http import HTTPStatus
 
+from flask import jsonify, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
+
 from db.auth import get_auth_records, post_auth_record
 from db.refresh import (pull_refresh_token, push_refresh_token,
                         update_refresh_token)
 from db.user import get_user
-from flask import jsonify, request
-from flask_jwt_extended import get_jwt_identity, jwt_required
 from pages.auth import auth_blueprint
 from utils.jwt_tokens import get_access_token, get_jti, get_refresh_token
 from utils.passwords import verify_password

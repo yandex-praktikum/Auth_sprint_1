@@ -1,9 +1,10 @@
 import uuid
 from datetime import datetime
 
-from db.db import db
 from sqlalchemy import Column, DateTime, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
+
+from db.db import db
 
 
 class User(db.Model):

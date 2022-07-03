@@ -9,8 +9,9 @@ monkey.patch_all()
 
 import os
 
-from app import app
 from gevent.pywsgi import WSGIServer
+
+from app import app
 
 http_server = WSGIServer((app.config["HOST"], app.config["PORT"]), app)
 http_server.serve_forever()
