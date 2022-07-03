@@ -25,7 +25,6 @@ def signup_post():
     # Проверка, что юзера не сущетвует
     user = get_user(user_dict["login"])
 
-    print(user, user_dict)
     if user:
         return {}, HTTPStatus.CONFLICT
 

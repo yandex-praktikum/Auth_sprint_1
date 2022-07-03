@@ -6,7 +6,6 @@
 from typing import Any
 from pydantic import BaseSettings, Field
 from dotenv import load_dotenv
-
 load_dotenv()
 
 
@@ -44,3 +43,13 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.StreamHandler(),
+    ],
+)
+
+logger = logging.getLogger()

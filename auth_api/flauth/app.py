@@ -14,7 +14,7 @@ from db.user import post_user
 from db.user import get_user
 from utils.passwords import hash_password
 from db.db import init_db
-from config import settings
+from config import settings, logger
 from pages import auth
 from pages import main
 from utils.jwt_tokens import jwt
@@ -68,9 +68,9 @@ def create_user(login, email, name, password):
     user = get_user(login)
     if not user:
         status = post_user(user_dict)
-        print("Admin user created with status", status)
+        logger.info("Admin user created with status", status)
     else:
-        print("Admin user exists", status)
+        logger.info("Admin user exists", status)
 
 
 app.cli.add_command(user_cli)

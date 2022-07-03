@@ -42,7 +42,7 @@ def iter_bulk_extractor(
     name: str, config: Any, query: str, batch_size: int, state: Any
 ) -> Iterator:
     """Get all data from DB."""
-    print("Connection...")
+    logger.info("Connection...")
     with conn_context(config) as conn:
 
         cursor = conn.cursor()

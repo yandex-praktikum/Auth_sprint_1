@@ -71,7 +71,6 @@ ADMIN_USER = {
 
 async def test_role_lifecicle(make_request):
     # login as admin
-    print(ADMIN_USER)
     response = await make_request(SERVICE_AUTH, "POST", "login", ADMIN_USER)
 
     assert response.status in [HTTPStatus.OK]

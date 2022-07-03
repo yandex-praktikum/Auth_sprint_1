@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import settings
+from config import settings, logger
+
 
 db = SQLAlchemy()
 
@@ -9,7 +10,7 @@ def init_db(app: Flask):
     app.config[
         "SQLALCHEMY_DATABASE_URI"
     ] = f"postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_auth_db}"
-    print(
+    logger.info(
         f"postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_auth_db}"
     )
     db.init_app(app)
