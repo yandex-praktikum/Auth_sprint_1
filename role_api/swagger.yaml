@@ -1,56 +1,73 @@
-swagger: '2.0'
+openapi: 3.0.3
+
 info:
   title: Role API
-  version: "0.1"
+  version: '1.0'
   description: API for add, edit and remove roles for users
-consumes:
-  - application/json
-produces:
-  - application/json
-security:
-  # enable OAuth protection for all REST endpoints
-  # (only active if the TOKENINFO_URL environment variable is set)
-  - oauth2: [uid]
+
 paths:
   /roles:
     get:
       tags: [Roles]
+
+      security:
+        - AccessToken: []
+
       operationId: app.get_roles
       summary: Get all roles
+
       responses:
         200:
           description: Return roles
-          schema:
-            type: object
-            properties:
-              roles:
+          content:
+            application/json:
+              schema:
                 type: array
-                items:
-                  $ref: '#/definitions/Role'
-  /roles/{role_id}:
+                items: 
+                  $ref: '#/components/schemas/Role'
+        401:
+          description: Wrong token
+
+  /role/{role_id}:
     get:
       tags: [Roles]
+
+      security:
+        - AccessToken: []
+
       operationId: app.get_role
       summary: Get a single role
+
       parameters:
-        - $ref: '#/parameters/role_id'
+        - $ref: '#/components/parameters/RoleId'
+
       responses:
         200:
           description: Return role
-          schema:
-            $ref: '#/definitions/Role'
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Role'
+        401:
+          description: Wrong token
         404:
-          description: Role does not exist
+          description: Role does not exis
+
     put:
       tags: [Roles]
+
+      security:
+        - AccessToken: []
+
       operationId: app.put_role
       summary: Create or update a role
+  
       parameters:
-        - $ref: '#/parameters/role_id'
-        - name: role
-          in: body
-          schema:
-            $ref: '#/definitions/Role'
+        - $ref: '#/components/parameters/RoleId'
+        - $ref: '#/components/parameters/Role'
+        - $ref: '#/components/parameters/Description'
+        - $ref: '#/components/parameters/Rule'
+
       responses:
         200:
           description: Role updated
@@ -58,12 +75,19 @@ paths:
           description: New role created
         401:
           description: Unauthorized request
+
     delete:
       tags: [Roles]
+
+      security:
+        - AccessToken: []
+
       operationId: app.delete_role
       summary: Remove a role
+
       parameters:
-        - $ref: '#/parameters/role_id'
+        - $ref: '#/components/parameters/RoleId'
+
       responses:
         204:
           description: Role was deleted
@@ -71,61 +95,21 @@ paths:
           description: Role does not exist
         401:
           description: Unauthorized request
-  /user/{user_id}:
-    get:
-      tags: [Users]
-      operationId: app.get_user_roles
-      summary: Get user's roles
-      parameters:
-        - $ref: '#/parameters/user_id'
-      responses:
-        200:
-          description: Return role's ids
-          schema:
-            type: object
-            properties:
-              roles:
-                type: array
-                items:
-                  $ref: '#/parameters/role_id'
-        401:
-          description: Unauthorized request
-    put:
-      tags: [Users]
-      operationId: app.add_role_to_user
-      summary: Grant role to user
-      parameters:
-        - $ref: '#/parameters/role_id'
-        - $ref: '#/parameters/user_id'
-      responses:
-        200:
-          description: Role updated
-        201:
-          description: New role created
-        401:
-          description: Unauthorized request
-    delete:
-      tags: [Roles]
-      operationId: app.delete_role_from_user
-      summary: Remove a role from user
-      parameters:
-        - $ref: '#/parameters/user_id'
-        - $ref: '#/parameters/role_id'
-      responses:
-        204:
-          description: Role was deleted
-        404:
-          description: Role does not exist
-        401:
-          description: Unauthorized request
+  
   /check:
     get:
       tags: [Check]
+
+      security:
+        - AccessToken: []
+
       operationId: app.check_role
       summary: Check that user has role
+
       parameters:
-        - $ref: '#/parameters/user_id'
-        - $ref: '#/parameters/role_id'
+        - $ref: '#/components/parameters/UserIdQ'
+        - $ref: '#/components/parameters/RoleIdQ'
+
       responses:
         200:
           description: User has role
@@ -133,29 +117,21 @@ paths:
           description: User doen't have role
         401:
           description: Unauthorized request 
-  /check:
-    get:
-      tags: [Check]
-      operationId: app.check_role
-      summary: Check that user has role
-      parameters:
-        - $ref: '#/parameters/user_id'
-        - $ref: '#/parameters/role_id'
-      responses:
-        200:
-          description: User has role
-        404:
-          description: User doen't have role
-        401:
-          description: Unauthorized request 
+  
   /check/{user_id}/{role_id}:
     get:
       tags: [Check]
+      
+      security:
+        - AccessToken: []
+      
       operationId: app.check_user_and_role
       summary: Check that user has role
+      
       parameters:
-        - $ref: '#/parameters/user_id'
-        - $ref: '#/parameters/role_id'
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/RoleId'
+      
       responses:
         200:
           description: User has role
@@ -164,58 +140,108 @@ paths:
         401:
           description: Unauthorized request
 
+components:
+  schemas:
+    Role:
+      type: object
+      required:
+        - role
+        - description
+        - rule
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+          example: "123"
+          readOnly: true
+        role:
+          type: string
+          description: role's name
+          example: "subscriber"
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+          description: Role description
+          example: "Simple subscriber"
+        rule:
+          type: string
+          description: "publication_data>1990"
+        created:
+          type: string
+          format: date-time
+          description: Creation time
+          example: "2015-07-07T15:49:51.230+02:00"
+          readOnly: true
 
-parameters:
-  role_id:
-    name: role_id
-    description: Role's Unique identifier
-    in: path
-    type: string
-    required: true
-    pattern: "^[a-zA-Z0-9-]+$"
-  user_id:
-    name: role_id
-    description: User's Unique identifier
-    in: path
-    type: string
-    required: true
-    pattern: "^[a-zA-Z0-9-]+$"
-definitions:
-  Role:
-    type: object
-    required:
-      - role
-      - description
-      - rule
-    properties:
-      id:
+  parameters:
+    RoleId:
+      name: role_id
+      description: Role's Unique identifier
+      in: path
+      schema: 
         type: string
-        description: Unique identifier
+        pattern: "^[a-zA-Z0-9-]+$"
         example: "123"
-        readOnly: true
-      role:
+      required: true
+
+    RoleIdQ:
+      name: role_id
+      description: Role's Unique identifier
+      in: query
+      schema: 
         type: string
-        description: role's name
+        pattern: "^[a-zA-Z0-9-]+$"
+        example: "123"
+      required: true
+
+    UserId:
+      name: user_id
+      description: User's Unique identifier
+      in: path
+      schema:
+        type: string
+        pattern: "^[a-zA-Z0-9-]+$"
+      required: true
+
+    UserIdQ:
+      name: user_id
+      description: User's Unique identifier
+      in: query
+      schema:
+        type: string
+        pattern: "^[a-zA-Z0-9-]+$"
+      required: true
+
+    Role:
+      name: role
+      description: Role's name
+      in: query
+      schema:
+        type: string
+        pattern: "^[a-zA-Z0-9-]+$"
         example: "subscriber"
-        minLength: 1
-        maxLength: 100
-      description:
+
+    Description:  
+      name: description
+      description: Role's description
+      in: query
+      schema:
         type: string
-        description: Role description
+        pattern: "^[a-zA-Z0-9-]+$"
         example: "Simple subscriber"
-      rule:
+      required: true
+
+    Rule:
+      name: rule
+      description: Role's rule
+      in: query
+      schema:
         type: string
-        description: "publication_data>1990"
-      created:
-        type: string
-        format: date-time
-        description: Creation time
-        example: "2015-07-07T15:49:51.230+02:00"
-        readOnly: true
-securityDefinitions:
-  oauth2:
-    type: oauth2
-    flow: implicit
-    authorizationUrl: https://example.com/oauth2/dialog
-    scopes:
-      uid: Unique identifier of the user accessing the service.
+        example: "publication_data>1990"
+
+  securitySchemes:
+    AccessToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
