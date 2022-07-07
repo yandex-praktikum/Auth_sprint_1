@@ -21,16 +21,20 @@ from db.user import get_user, post_user
 from pages import auth, main
 from utils.jwt_tokens import jwt
 from utils.passwords import hash_password
+from flask_cors import CORS
+
 
 app = Flask(__name__, template_folder="templates")
+CORS(app)
 
 app.config["SECRET_KEY"] = settings.SECRET_KEY
 app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
 app.config["HOST"] = settings.auth_app_host
 app.config["PORT"] = settings.auth_app_port
 app.config["DEBUG"] = settings.debug
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
 
 app.app_context().push()
 
@@ -42,6 +46,7 @@ jwt.init_app(app)
 
 app.register_blueprint(auth.auth_blueprint)
 app.register_blueprint(main.main_blueprint)
+
 
 
 user_cli = AppGroup("user")
