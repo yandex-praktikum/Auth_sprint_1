@@ -100,24 +100,36 @@ services:
       
   swagger_ui_auth:
    image: swaggerapi/swagger-ui
-   container_name: swagger_ui_authcontainer
+   container_name: swagger_ui_auth
    ports:
       - 8080:8080
    volumes:
       - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
    environment:
       API_URL: doc/swagger.yaml
-  
+      
   role_api:
     build:
       context: ./role_api
       dockerfile: Dockerfile
     container_name: role_api
-    expose: 
-      - 5002
+    #expose: 
+    #  - 5002
+    ports:
+      - 5002:5002
     env_file:
       - .env
-
+      
+  swagger_ui_role:
+   image: swaggerapi/swagger-ui
+   container_name: swagger_ui_role
+   ports:
+      - 8082:8082
+   volumes:
+      - ./role_api/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
+   environment:
+      API_URL: doc/swagger.yaml
+  
   tests:
     build:
       context: ./tests/functional

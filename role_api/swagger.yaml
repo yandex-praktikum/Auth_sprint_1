@@ -5,6 +5,9 @@ info:
   version: '1.0'
   description: API for add, edit and remove roles for users
 
+servers:
+  - url: http://localhost:5002/api/v1/
+
 paths:
   /roles:
     get:
