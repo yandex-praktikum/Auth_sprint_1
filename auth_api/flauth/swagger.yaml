@@ -5,6 +5,9 @@ info:
   version: '1.0'
   description: API for signup, login and auth users
 
+servers:
+  - url: http://localhost:5001/api/v1/
+
 paths:
   /login:
     post:

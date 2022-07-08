@@ -15,6 +15,7 @@ services:
       - .env
     depends_on:
       - postgres
+  
   postgres:
     build:
       context: ./postgres
@@ -76,8 +77,21 @@ services:
     container_name: auth_api
     expose: 
       - 5001
+    #ports:
+    #  - 5001:5001
     env_file:
       - .env
+#      
+#  swagger_ui_auth:
+#   image: swaggerapi/swagger-ui
+#   container_name: swagger_ui_authcontainer
+#   ports:
+#      - 8080:8080
+#   volumes:
+#      - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
+#   environment:
+#      API_URL: doc/swagger.yaml
+  
   role_api:
     build:
       context: ./role_api
@@ -87,6 +101,7 @@ services:
       - 5002
     env_file:
       - .env
+
   tests:
     build:
       context: ./tests/functional
@@ -94,6 +109,7 @@ services:
     container_name: tests
     env_file:
       - .env
+
 volumes:
   postgres_data:
   static_volume:
