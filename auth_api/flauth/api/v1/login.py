@@ -25,15 +25,17 @@ def login_post():
     # Проверяем парроль
     user = get_user(login)
     if not user:
-        return {}, HTTPStatus.BAD_REQUEST
-
+        return {}, HTTPStatus.UNAUTHORIZED
     if not verify_password(password, user.hash_password):
         return {}, HTTPStatus.UNAUTHORIZED
 
     # Проверяем есть ли regresh токен с этого устройства
     user_agent = request.user_agent.string
     token_info = pull_refresh_token(user.id, user_agent)
+    return login_controller(user, user_agent, token_info=token_info)
+    
 
+def login_controller(user, user_agent, token_info=None):    
     # Создаем новый токены
     access_token = get_access_token(user)
     refresh_token = get_refresh_token(user)
@@ -56,6 +58,7 @@ def login_post():
     )
 
 
+
 @auth_blueprint.route("/login/<page>", methods=["GET"])
 @jwt_required()
 def info_get(page: int):
@@ -66,6 +69,6 @@ def info_get(page: int):
     auth_records = get_auth_records(user_info["id"], page=page)
     auth_records = [
         {"user_agent": item.user_agent, "date_time": item.date_time}
-        for item in auth_records
+        for item in auth_records.items
     ]
     return jsonify(auth_records), HTTPStatus.OK

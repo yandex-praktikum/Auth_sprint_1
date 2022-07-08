@@ -84,7 +84,7 @@ async def test_login_wrong_login(make_request):
 
     response = await make_request(SERVICE, "POST", "login", login_info)
 
-    assert response.status in [HTTPStatus.BAD_REQUEST]
+    assert response.status in [HTTPStatus.UNAUTHORIZED]
     assert response.body == {}
 
 
@@ -112,7 +112,7 @@ async def test_login_get(make_request):
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
 
-    response = await make_request(SERVICE, "GET", "login", headers=headers)
+    response = await make_request(SERVICE, "GET", "login/1", headers=headers)
 
     assert response.status in [HTTPStatus.OK]
     assert len(response.body) != 0
@@ -124,7 +124,7 @@ async def test_login_get_wrong(make_request):
     """Тестирование получния данных о заходах в аккаунт для неправильного токена"""
     headers = {"Authorization": "Bearer " + "wrong_tocken"}
 
-    response = await make_request(SERVICE, "GET", "login", headers=headers)
+    response = await make_request(SERVICE, "GET", "login/1", headers=headers)
 
     assert response.status in [HTTPStatus.UNPROCESSABLE_ENTITY]
 
@@ -215,7 +215,7 @@ async def test_logout_login_info(make_request):
     headers = {"Authorization": "Bearer " + access_token}
     response = await make_request(SERVICE, "DELETE", "logout", headers=headers)
 
-    response = await make_request(SERVICE, "GET", "login", headers=headers)
+    response = await make_request(SERVICE, "GET", "login/1", headers=headers)
 
     assert response.status in [HTTPStatus.UNAUTHORIZED]
 
@@ -231,7 +231,7 @@ async def test_admin_user(make_request):
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
 
-    response = await make_request(SERVICE, "GET", "login", headers=headers)
+    response = await make_request(SERVICE, "GET", "login/1", headers=headers)
 
     assert response.status in [HTTPStatus.OK]
     assert len(response.body) != 0

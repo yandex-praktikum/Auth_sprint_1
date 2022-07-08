@@ -11,6 +11,14 @@ from pydantic import BaseSettings, Field
 
 load_dotenv()
 
+class OAuthSettings(BaseSettings):
+    """Dataclass for oauth settings"""
+
+    google_client_id: str = Field("", env="GOOGLE_CLIENT_ID")
+    google_client_secret: str = Field("", env="GOOGLE_CLIENT_SECRET")
+
+    yandex_client_id: str = Field("", env="YANDEX_CLIENT_ID")
+    yandex_client_secret: str = Field("", env="YANDEX_CLIENT_SECRET")
 
 class Settings(BaseSettings):
     """Dataclass for settings."""
@@ -46,6 +54,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+oauth_settings = OAuthSettings()
 
 logging.basicConfig(
     level=logging.DEBUG,

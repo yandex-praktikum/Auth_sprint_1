@@ -4,6 +4,8 @@ from flask_jwt_extended import (JWTManager, create_access_token,
 from flask_jwt_extended import get_jwt as flask_get_jwt
 from flask_jwt_extended import get_jwt_identity as flask_get_identity
 
+from db import blocklist_check
+
 jwt = JWTManager()
 
 

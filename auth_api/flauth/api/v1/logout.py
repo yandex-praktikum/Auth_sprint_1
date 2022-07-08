@@ -7,6 +7,8 @@ from http import HTTPStatus
 
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required
+from db.db_models import User
+from db.user import post_user
 
 from db.redis import blocklist_push
 from db.refresh import delete_refresh_token
@@ -20,6 +22,10 @@ def logout():
     # Вытаскиваем данные о пользователе и устройсве
     user_info = get_jwt_identity()
     user_agent = request.user_agent.string
+
+    user = User.get_user_by_universal_login(email=user_info["email"])
+    user.reset_oauth_fields()
+    post_user(user)
 
     # Добавляем access токен в blocklist
     jti = get_jwt()

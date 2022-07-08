@@ -36,7 +36,7 @@ paths:
         - AccessToken: []
 
       operationId: auth.info_get
-      summary: Information about auth jwt is nedded
+      summary: Information about auth jwt is needed
       
       parameters:
         - in: path
@@ -53,7 +53,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/parameters/Login'
-          
+        401:
+          description: Wrong token
+
   /signup:
     post:
       operationId: auth.signup_post
@@ -77,7 +79,7 @@ paths:
         - RefreshToken: []
       
       operationId: auth.refresh_post
-      summary: Check the refresh tocken from header, give new access and refresh token
+      summary: Check the refresh token from header, give new access and refresh token
       
       responses:
         200:

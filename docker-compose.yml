@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  # frontend:
+  #     build:
+  #       context: ./frontend
+  #       dockerfile: Dockerfile
+  #     container_name: frontend
+  #     expose:
+  #       - 3000
+  #     stdin_open: true
+  #     volumes:
+  #       - ./frontend:/app
+  #       - '/app/node_modules'
+  #     env_file:
+  #       - .env
+  #     environment:
+  #       - CHOKIDAR_USEPOLLING=true
   search_api:
     build:
       context: ./search_api
@@ -32,17 +47,18 @@ services:
       - .env
     expose:
       - 5432
-  ### we don't have frontend services right now
   # nginx:
   #   build: ./nginx
   #   container_name: nginx
   #   volumes:
   #     - static_volume:/home/app/web/staticfiles
   #     - media_volume:/home/app/web/mediafiles
+  #     - frontend_volume:/home/app/build
   #   ports:
   #     - 80:80
   #   depends_on:
   #     - search_api
+  #     - frontend
   elasticsearch:
     image: elasticsearch:7.17.3
     container_name: elasticsearch
@@ -114,3 +130,4 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  frontend_volume:
