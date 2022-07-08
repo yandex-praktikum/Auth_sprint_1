@@ -26,10 +26,8 @@ class User(db.Model):
     email = Column(String, unique=True, nullable=False)
     hash_password = Column(String, nullable=False)
     role = Column(String, default="registered", nullable=False)
-    google_id = Column(String, nullable=True)
-    google_token = Column(String, nullable=True)
-    yandex_id = Column(String, nullable=True)
-    yandex_token = Column(String, nullable=True)
+    
+    social_accounts = db.relationship("SocialAccount")
 
     def __repr__(self):
         return f"<User {self.login}>"
@@ -38,11 +36,32 @@ class User(db.Model):
     def get_user_by_universal_login(cls, login: Optional[str] = None, email: Optional[str] = None):
         return cls.query.filter(or_(cls.login == login, cls.email == email)).first() 
 
+    def reset_oauth_field(self, social_type):
+        SocialAccount.query(user_id=self.id, social_type=social_type).delete()
+
     def reset_oauth_fields(self):
-        self.google_id = None
-        self.google_token = None
-        self.yandex_id = None
-        self.yandex_token = None
+        SocialAccount.query(user_id=self.id).delete()
+        
+
+class SocialAccount(db.Model):
+    __tablename__ = 'social_account'
+
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship(User, backref=db.backref('social_accounts', lazy=True))
+    social_type = db.Column(db.Text, nullable=False)
+    social_id = db.Column(db.Text, nullable=False)
+    social_name = db.Column(db.Text, nullable=False)
+    access_token = db.Column(db.Text, nullable=False)
+
+    __table_args__ = (db.UniqueConstraint('social_id', 'social_name', name='social_pk'),
+                    {"schema": "users"},
+                    )
+    
+    def __repr__(self):
+        return f'<SocialAccount {self.social_name}:{self.user_id}>' 
+
+
 
 class AuthRecord(db.Model):
     __tablename__ = "auth"

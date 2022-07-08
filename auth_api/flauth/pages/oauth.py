@@ -6,11 +6,12 @@
 from http import HTTPStatus
 from flask import Blueprint, request, url_for, redirect
 from app import app
+from db.db import db
 from authlib.integrations.flask_client import OAuth
 from api.v1.login import login_controller
 from db.user import post_user
 from config import oauth_settings, logger
-from db.db_models import User, generate_random_password
+from db.db_models import User, generate_random_password, SocialAccount
 from utils.passwords import hash_password
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
@@ -54,18 +55,38 @@ def process_auth_user(access_token: str, oauth_user: str):
     user = User.get_user_by_universal_login(email=email)
     user_agent = request.user_agent.string
     if user:
-        user.google_id = email
-        user.google_token = access_token
-        user.save()
+
+        social_dict = {
+            "user_id": user.id,
+            "social_type": "google",
+            "social_id": oauth_user["id"],
+            "social_name": oauth_user["name"],
+            "access_token": access_token,
+        }
+        social_account = SocialAccount(**user)
+        db.session.add(social_account)
+        db.session.commit()
         return login_controller(user, user_agent)
+
     password = generate_random_password()
     user_dict = {
         "login": email,
         "email": email,
-        "google_token": access_token,
         "hash_password": hash_password(password),
     }
     user = post_user(user_dict)
+
+    social_dict = {
+        "user_id": user.id,
+        "social_type": "google",
+        "social_id": oauth_user["id"],
+        "social_name": oauth_user["name"],
+        "access_token": access_token,
+    }
+    social_account = SocialAccount(**user)
+    db.session.add(social_account)
+    db.session.commit()
+    
     if not user:
         return {}, HTTPStatus.CONFLICT
     return login_controller(user, user_agent)
@@ -84,4 +105,5 @@ def google_logout():
         params={"token": access_token},
         headers={"Content-Type": "application/x-www-form-urlencoded"}
     )
+    user.reset_oauth_field("google")
     return redirect("/logout")
