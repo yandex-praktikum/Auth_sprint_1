@@ -5,6 +5,7 @@
 
 from http import HTTPStatus
 from flask import Blueprint, request, url_for, redirect
+from sqlalchemy import and_
 from app import app
 from db.db import db
 from authlib.integrations.flask_client import OAuth
@@ -105,5 +106,5 @@ def google_logout():
         params={"token": access_token},
         headers={"Content-Type": "application/x-www-form-urlencoded"}
     )
-    user.reset_oauth_field("google")
+    SocialAccount.query.filter(and_(SocialAccount.user_id==user.id, SocialAccount.social_type=="google")).delete()
     return redirect("/logout")

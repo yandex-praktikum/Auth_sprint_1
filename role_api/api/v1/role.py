@@ -16,8 +16,12 @@ from views.role import role_blueprint
 @role_blueprint.route("/role/<role_id>", methods=["GET"])
 @jwt_required()
 def get_role(role_id):
-    role = Role.query(id=role_id).one()
-    return jsonify(role), HTTPStatus.OK
+    role = Role.query.filter_by(id=role_id).one()
+    return jsonify({"id": role.id,
+              "role": role.role,
+              "description": role.description,
+              "rule": role.rule,
+             }), HTTPStatus.OK
 
 
 @role_blueprint.route("/role/<role_id>", methods=["PUT"])
@@ -32,7 +36,7 @@ def put_role(role_id):
     role_dict["description"] = request.form.get("description")
     role_dict["rule"] = request.form.get("rule")
 
-    existing_role = Role.query(id=role_id).one_or_none()
+    existing_role = Role.query.filter_by(role=role_dict["role"]).one_or_none()
     if not existing_role:
         role = Role(**role_dict)
         db.session.add(role)
@@ -52,3 +56,4 @@ def delete_role(role_id):
     if not user["role"] in ["admin"]:
         return {}, HTTPStatus.UNAUTHORIZED
     Role.query.filter_by(id=role_id).delete()
+    return {}, HTTPStatus.OK

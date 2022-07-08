@@ -7,12 +7,12 @@ done
 echo "PostgreSQL started"
 
 export PGPASSWORD=$POSTGRES_PASSWORD
-psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -f /app/drop.sql
+psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER -d $POSTGRES_DB -f /app/init.sql
 
 cd /app/flauth
-flask db init &&
-flask db migrate -x include_schemas=True &&
-flask db upgrade  -x include_schemas=True &&
+# flask db init &&
+# flask db migrate -x include_schemas=True &&
+# flask db upgrade  -x include_schemas=True &&
 flask user add_admin $ADMIN_LOGIN $ADMIN_EMAIL $ADMIN_NAME $ADMIN_PASSWORD &&
 python3 /app/flauth/wsgi_app.py
 

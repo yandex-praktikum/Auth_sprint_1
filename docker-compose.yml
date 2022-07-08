@@ -97,7 +97,6 @@ services:
       - 5001:5001
     env_file:
       - .env
-      
   swagger_ui_auth:
    image: swaggerapi/swagger-ui
    container_name: swagger_ui_authcontainer

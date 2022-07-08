@@ -18,7 +18,7 @@ RUN pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r /app/requirements.txt
 # Добавляем внутрь образа папку с приложением 
 ADD flauth /app/flauth
-ADD drop.sql /app/
+ADD init.sql /app/
 ADD entrypoint.sh /app/
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]

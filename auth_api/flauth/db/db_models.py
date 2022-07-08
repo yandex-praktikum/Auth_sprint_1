@@ -37,13 +37,7 @@ class User(db.Model):
     def get_user_by_universal_login(cls, login: Optional[str] = None, email: Optional[str] = None):
         return cls.query.filter(or_(cls.login == login, cls.email == email)).first() 
 
-    def reset_oauth_field(self, social_type):
-        SocialAccount.query(user_id=self.id, social_type=social_type).delete()
-
-    def reset_oauth_fields(self):
-        SocialAccount.query(user_id=self.id).delete()
-        
-
+    
 class SocialAccount(db.Model):
     __tablename__ = 'social_account'
 

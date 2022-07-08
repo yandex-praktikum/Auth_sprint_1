@@ -6,6 +6,8 @@
 
 from http import HTTPStatus
 
+from sqlalchemy import and_
+
 from db import db
 from db_models import Role, UserRole
 from flask import request
@@ -18,7 +20,7 @@ from views.role import role_blueprint
 def check_role():
     user = get_jwt_identity()
     role_id = request.form.get("role")
-    hit = UserRole.query(role_id=role_id, user_id=user["id"]).one_or_none()
+    hit = UserRole.query.filter(and_(UserRole.role_id==role_id, UserRole.user_id==user["id"])).one_or_none()
     if hit:
         return {}, HTTPStatus.OK
     return {}, HTTPStatus.UNAUTHORIZED
@@ -30,7 +32,7 @@ def check_user_and_role(userid, role):
     user = get_jwt_identity()
     if not user["role"] in ["admin"]:
         return {}, HTTPStatus.UNAUTHORIZED
-    hit = UserRole.query(role_id=role, user_id=userid).one_or_none()
+    hit = UserRole.query.filter(and_(UserRole.role_id==role, UserRole.user_id==userid)).one_or_none()
     if hit:
         return {}, HTTPStatus.OK
     return {}, HTTPStatus.UNAUTHORIZED

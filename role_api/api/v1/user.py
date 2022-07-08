@@ -6,6 +6,8 @@
 
 from http import HTTPStatus
 
+from sqlalchemy import and_
+
 from db import db
 from db_models import Role, UserRole
 from flask import jsonify, request
@@ -17,7 +19,7 @@ from views.role import role_blueprint
 @jwt_required()
 def get_user_roles(user_id):
     user = get_jwt_identity()
-    roles = UserRole.query(user_id=user["id"]).all()
+    roles = UserRole.query.filter_by(user_id=user["id"]).all()
     user_roles = [role.role_id for role in roles]
     return jsonify(user_roles), HTTPStatus.OK
 
@@ -40,5 +42,5 @@ def delete_role_from_user(user_id, role_id):
     user = get_jwt_identity()
     if not user["role"] in ["admin"]:
         return {}, HTTPStatus.UNAUTHORIZED
-    Role.query.filter_by(user_id=user_id, role_id=role_id).delete()
+    Role.query.filter(and_(Role.user_id==user_id, Role.role_id==role_id)).delete()
     return {}, HTTPStatus.OK
