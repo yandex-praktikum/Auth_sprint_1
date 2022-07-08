@@ -15,5 +15,5 @@ from views.role import role_blueprint
 @role_blueprint.route("/roles", methods=["GET"])
 @jwt_required()
 def get_roles():
-    roles = Role.query().all()
+    roles = Role.query.all()
     return jsonify(roles), HTTPStatus.OK

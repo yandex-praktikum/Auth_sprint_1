@@ -15,7 +15,7 @@ from http import HTTPStatus
 import pytest
 
 SERVICE_AUTH = f"{settings.auth_api_host}:{settings.auth_api_port}"
-SERVICE_ROLE = f"{settings.auth_api_host}:{settings.auth_api_port}"
+SERVICE_ROLE = f"{settings.role_api_host}:{settings.role_api_port}"
 
 pytestmark = pytest.mark.asyncio
 
