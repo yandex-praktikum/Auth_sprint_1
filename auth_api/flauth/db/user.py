@@ -22,4 +22,4 @@ def post_user(user):
         db.session.commit()
     except IntegrityError:
         return None
-    return "OK"
+    return user

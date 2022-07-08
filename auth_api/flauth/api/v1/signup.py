@@ -20,16 +20,15 @@ def signup_post():
     user_dict["name"] = request.form.get("name")
     password = request.form.get("password")
     user_dict["hash_password"] = hash_password(password)
+    return singup_controller(user_dict)
 
+def singup_controller(user_dict):
     # Проверка, что юзера не сущетвует
     user = get_user(user_dict["login"])
-
     if user:
         return {}, HTTPStatus.CONFLICT
-
     # Запись с проверкой уникальности e-mail
     post = post_user(user_dict)
     if not post:
         return {}, HTTPStatus.CONFLICT
-
     return {}, HTTPStatus.CREATED

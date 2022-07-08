@@ -22,10 +22,8 @@ paths:
                 type: string
               refresh_token:
                 type: string
-        400: 
-          description: Login does not exist
-        401:
-          description: A wrong password
+        401: 
+          description: Login does not exist or a wrong password
   /signup:
     post:
       operationId: auth.signup_post

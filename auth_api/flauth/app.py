@@ -65,6 +65,7 @@ def create_user(login, email, name, password):
     user_dict["role"] = "admin"
     user_dict["hash_password"] = hash_password(password)
     user = get_user(login)
+    status = "User exists"
     if not user:
         status = post_user(user_dict)
         logger.info(f"Admin user created with status {status}")
