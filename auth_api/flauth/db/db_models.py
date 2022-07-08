@@ -1,3 +1,4 @@
+from email.policy import default
 from typing import Optional
 import uuid
 from datetime import datetime
@@ -27,7 +28,7 @@ class User(db.Model):
     hash_password = Column(String, nullable=False)
     role = Column(String, default="registered", nullable=False)
     
-    social_accounts = db.relationship("SocialAccount", backref=db.backref('users', lazy=True))
+    social_accounts = db.relationship("SocialAccount", backref=db.backref('users.users', lazy=True))
 
     def __repr__(self):
         return f"<User {self.login}>"
@@ -48,7 +49,6 @@ class SocialAccount(db.Model):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('users.users.id'), nullable=False)
-    user = db.relationship(User, backref=db.backref('social_accounts', lazy=True))
     social_type = db.Column(db.Text, nullable=False)
     social_id = db.Column(db.Text, nullable=False)
     social_name = db.Column(db.Text, nullable=False)
@@ -77,7 +77,7 @@ class AuthRecord(db.Model):
 
     user_id = Column(UUID(as_uuid=True), nullable=False)
     user_agent = Column(String, nullable=False)
-    auth_type = Column(String, nullable=True)
+    auth_type = Column(String, nullable=True, default=None)
     date_time = Column(DateTime, default=datetime.now(), nullable=False)
 
 
