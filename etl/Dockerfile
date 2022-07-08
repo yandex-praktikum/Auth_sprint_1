@@ -2,8 +2,10 @@
 FROM python:3.9.6-alpine as builder
 
 # install psycopg2 dependencies
+RUN apk add alpine-sdk
+
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+    && apk add build-base g++ postgresql-dev gcc python3-dev musl-dev
 
 COPY . /app
 WORKDIR /app/

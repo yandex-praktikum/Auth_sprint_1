@@ -1,3 +1,4 @@
+from email.policy import default
 from typing import Optional
 import uuid
 from datetime import datetime
@@ -27,7 +28,7 @@ class User(db.Model):
     hash_password = Column(String, nullable=False)
     role = Column(String, default="registered", nullable=False)
     
-    social_accounts = db.relationship("SocialAccount")
+    social_accounts = db.relationship("SocialAccount", backref=db.backref('users.users', lazy=True))
 
     def __repr__(self):
         return f"<User {self.login}>"

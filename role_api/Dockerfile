@@ -1,5 +1,15 @@
 # Образ, от которого идет наследование
-FROM python:3.10
+FROM python:3.10.3-alpine as builder
+# Рабочая директория для CMD и ENTRYPOINT
+
+RUN apk add alpine-sdk
+
+RUN apk update \
+    && apk add build-base g++ postgresql-dev gcc python3-dev musl-dev libffi-dev
+
+RUN apk add postgresql-client
+
+
 # Рабочая директория для CMD и ENTRYPOINT
 WORKDIR /app/
 # Устанавливаем зависимости 

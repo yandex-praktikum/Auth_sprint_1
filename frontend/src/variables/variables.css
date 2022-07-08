@@ -1,0 +1,22 @@
+:root {
+    --dark-bg: #073042;
+    --balck-bg: #000000;
+    --light-bg: #ffffff;
+    --green: #2BE080;
+    --text: #ffffff;
+    --black-text: #000000;
+    --gray-lines: #E8E8E8;
+    --dark-gray: #A0A0A0;
+    --blue: #3456F3;
+    --gray2: #F2F2F2;
+    --gray3: #F5F5F5;
+    --gray-opacity: rgba(170, 170, 170, .2);
+    
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --overlay-gray: rgba(0, 0, 0, 0.3);
+    --footer-text: #545454;
+    --popup-field: rgba(0, 0, 0, 0.2);
+    --decoration: rgba(84, 84, 84, 0.7);
+    --light-field: #CCCCCC;
+    --invalid: #FF0000;
+  }

@@ -1,0 +1,17 @@
+.ProtectedRoute {
+}
+
+@media screen and (max-width: 1280px) {
+  .ProtectedRoute {
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .ProtectedRoute {
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .ProtectedRoute {
+  }
+}

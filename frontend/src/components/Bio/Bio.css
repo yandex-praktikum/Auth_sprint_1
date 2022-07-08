@@ -1,0 +1,141 @@
+.Bio {
+  margin-bottom: 100px;
+  display: grid;
+  grid-column: 1fr 1fr;
+  grid-row: auto;
+  column-gap: 0;
+}
+
+.Bio__name {
+  margin: 0;
+  grid-column-start: 1;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  margin-bottom: 18px;
+}
+
+.Bio__about {
+  margin: 0;
+  grid-column-start: 1;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  margin-bottom: 26px;
+}
+
+.Bio__bio {
+  margin: 0;
+  max-width: 599px;
+  grid-column-start: 1;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  mix-blend-mode: normal;
+  margin-bottom: 99px;
+}
+
+.Bio__links {
+  grid-column-start: 1;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.Bio__link {
+  color: var(--black-text);
+  text-decoration: none;
+  grid-column-start: 1;
+  grid-row-start: 1;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  margin-right: 20px;
+  transition: opacity 0.2s ease-in;
+}
+
+.Bio__link:hover {
+  opacity: 0.6;
+}
+
+.Bio__photo {
+  margin-left: auto;
+  max-width: 327px;
+  grid-column-start: 2;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .Bio {
+    margin-bottom: 90px;
+  }
+
+  .Bio__name {
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+
+  .Bio__about {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 20px;
+  }
+
+  .Bio__bio {
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 87px;
+    max-width: 362px;
+    margin-bottom: 99px;
+  }
+
+  .Bio__photo {
+    max-width: 255px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .Bio {
+    grid-column: 1fr;
+    margin-bottom: 69px;
+  }
+
+  .Bio__photo {
+    align-self: center;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    max-width: 292px;
+    grid-column-start: 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+  }
+
+  .Bio__name {
+    font-size: 30px;
+    line-height: 36px;
+    margin-bottom: 20px;
+  }
+
+  .Bio__about {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 20px;
+  }
+
+  .Bio__bio {
+    font-size: 11px;
+    line-height: 16px;
+    margin-bottom: 40px;
+  }
+}

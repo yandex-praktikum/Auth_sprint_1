@@ -1,0 +1,68 @@
+.Login {
+  max-width: 396px;
+  margin: 70px auto 0 auto;
+}
+
+.Login__logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 40px;
+}
+
+.Login__link {
+  margin: 16px auto 0 auto;
+  text-align: center;
+}
+
+.Login__link-hint {
+  display: inline;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+  margin-right: 6px;
+}
+
+.Login__back-link {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.Login__back-link:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 768px) {
+  .Login {
+    margin: 232px auto 0 auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Login {
+    max-width: 260px;
+    margin: 56px auto 0 auto;
+  }
+
+  .Login__link-hint {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .Login__back-link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .Login__logo {
+    margin: 0 auto 50px auto;
+  }
+}
