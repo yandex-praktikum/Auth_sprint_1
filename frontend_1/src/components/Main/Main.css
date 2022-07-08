@@ -1,0 +1,12 @@
+.Main {
+}
+
+@media screen and (max-width: 768px) {
+  .Main {
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .Main {
+  }
+}

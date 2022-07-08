@@ -1,0 +1,50 @@
+.FilterCheckbox {
+    display: flex;
+    vertical-align: middle;
+}
+  
+.FilterCheckbox__checkbox {
+    border: 0;
+    margin-right: 14px;
+    width: 36px;
+    height: 20px;
+    background: url(../../images/checkbox.svg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    border: none;
+    transition: opacity 0.2s ease-in;
+    cursor: pointer;
+}
+
+.FilterCheckbox__checkbox_inactive {
+    background: url(../../images/checkbox_inactive.svg);
+}
+
+.FilterCheckbox__checkbox:hover {
+    opacity: 0.6;
+}
+
+.FilterCheckbox__checkbox-text {
+    margin: 0;
+    padding-top: 2px;
+    height: 16px;
+    display: inline;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #000000;
+}
+
+@media screen and (max-width: 768px) {
+    .FilterCheckbox__checkbox-text {
+        font-size: 11px;
+        line-height: 18px;
+    }
+  }
+  
+@media screen and (max-width: 320px) {
+
+}
+

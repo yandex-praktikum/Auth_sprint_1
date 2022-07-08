@@ -1,0 +1,167 @@
+.Header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 74px;
+  padding: 0 70px 0 70px;
+  background-color: var(--dark-bg);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.Header_logined {
+  background-color: var(--light-bg);
+}
+
+.Header__logo {
+  margin-right: auto;
+  padding-right: 44px;
+}
+
+.Header__logo_logined {
+  margin-right: 0;
+}
+
+.Header__reglink {
+  margin-left: 30px;
+  color: var(--text);
+  text-decoration: none;
+  transition: opacity 0.2s ease-in;
+}
+
+.Header__reglink:hover {
+  opacity: 0.6;
+}
+
+.Header__link {
+  margin-right: 16px;
+  text-align: right;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--black-text);
+  transition: opacity 0.2s ease-in;
+}
+
+.Header__link:hover {
+  opacity: 0.6;
+}
+
+.Header__link_light {
+  font-weight: 400;
+}
+
+
+.Header__profile-link {
+  margin-left: auto;
+  margin-right: 13px;
+  text-decoration: none;
+  vertical-align: middle;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--black-text);
+  transition: opacity 0.2s ease-in;
+}
+
+.Header__profile-link:hover {
+  opacity: 0.6;
+}
+
+.Header__profile-icon {
+  display: inline-block;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  background: url(../../images/profile_icon.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  background-color: #F9F9F9;
+}
+
+.Header__more-button {
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  margin-left: auto;
+  display: none;
+  width: 44px;
+  height: 44px;
+  background: url(../../images/icon__COLOR_icon-main.svg);
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  
+}
+
+.Header__inlink {
+  display: block;
+  padding: 8px 20px;
+  color: var(--black-text);
+  text-decoration: none;
+  margin-left: 30px;
+  background: #2BE080;
+  border-radius: 3px;
+  transition: opacity 0.2s ease-in;
+}
+
+.Header__inlink:hover {
+  opacity: 0.6;
+}
+
+.Header__link_white {
+  color: var(--text);
+}
+
+
+@media screen and (max-width: 768px) {
+  .Header {
+    padding: 0 30px 0 30px;
+  }
+
+  .Header__more-button {
+    display: block;
+  }
+
+  .Header__profile-icon {
+    display: none;
+  }
+
+  .Header__profile-link {
+    display: none;
+  }
+
+  .Header__link {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .Header {
+    padding: 0 14px 0 14px;
+    font-size: 10px;
+    line-height: 16px;
+  }
+
+  .Header__reglink {
+    margin-left: 14px;
+  }
+
+  .Header__inlink {
+    padding: 5px 12px;
+    margin-left: 14px;
+  }
+
+  .Header__logo {
+    margin: 0 auto 0 0;
+    padding-right: 0;
+  }
+  
+}

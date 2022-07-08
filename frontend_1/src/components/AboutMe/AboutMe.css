@@ -1,0 +1,37 @@
+.AboutMe {
+  padding: 110px 70px 125px 70px;
+}
+
+.AboutMe__header {
+  margin: 0;
+  margin-bottom: 66px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid var(--dark-bg);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+}
+
+@media screen and (max-width: 1280px) {
+  .AboutMe {
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .AboutMe {
+    padding: 90px 50px 90px 50px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .AboutMe {
+    padding: 70px 14px 70px 14px;
+  }
+
+  .AboutMe__header {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

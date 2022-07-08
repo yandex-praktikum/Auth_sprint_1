@@ -1,0 +1,100 @@
+.SearchForm {
+  margin: 70px 70px 80px 70px;
+  border-bottom: 1px solid var(--gray-opacity);
+  padding-bottom: 43px;
+}
+
+.SearchForm__field-container {
+  position: relative;
+  padding-bottom: 27px;
+}
+
+.SearchForm__field {
+  border: 1.5px solid var(--gray-opacity);
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 100%;
+  padding: 25px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.SearchForm__field:focus{
+  outline: none;
+  border: 1.5px solid var(--dark-gray);
+}
+
+.SearchForm__field::placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: var(--dark-gray);
+}
+
+.SearchForm__button {
+  width: 100px;
+  height: 52px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--blue);
+  padding: 17px 20px;
+  border: none;
+  border-radius: 5px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  color: var(--text);
+  transition: opacity 0.2s ease-in;
+}
+
+.SearchForm__button_inactive {
+  color: #808080;
+  cursor: not-allowed;
+}
+
+.SearchForm__button:hover {
+  opacity: 0.6;
+}
+
+
+@media screen and (max-width: 768px) {
+  .SearchForm {
+    margin: 70px 30px 80px 30px;
+    padding-bottom: 63px;
+  }
+
+  .SearchForm__button {
+    width: 80px;
+    height: 44px;
+    top: 6px;
+    right: 6px;
+    padding: 10px 13px;
+  }
+
+  .SearchForm__field::placeholder {
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .SearchForm__field {
+    width: 100%;
+    padding: 20px 0px 20px 12px;
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .SearchForm__field-container {
+    padding-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .SearchForm {
+    margin: 70px 14px 50px 14px;
+  }
+}

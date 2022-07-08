@@ -1,0 +1,37 @@
+.Movies {
+  background-color: var(--light-bg);
+}
+
+.Movies__more-button {
+  display: block;
+  padding: 0;
+  margin: 78px auto 80px auto;
+  min-width: 320px;
+  min-height: 36px;
+  border: none;
+  background: #F9F9F9;
+  border-radius: 6px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #000000;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in;
+}
+
+.Movies__more-button:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 768px) {
+  
+  .Movies__more-button {
+    margin: 50px auto 80px auto;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  
+}

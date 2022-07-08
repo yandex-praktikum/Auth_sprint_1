@@ -1,0 +1,121 @@
+.SlideMenu {
+    display: flex;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--overlay-gray);
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.SlideMenu_active {
+   visibility: visible;
+}
+
+.SlideMenuInner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 520px;
+    background-color: var(--light-bg);
+    z-index: 100;
+}
+
+.SlideMenu__link {
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: var(--black-text);
+    margin-bottom: 28px;
+    text-decoration: none;
+    transition: opacity 0.2s ease-in;
+}
+
+.SlideMenu__link:hover {
+    opacity: 0.6;
+}
+
+.SlideMenu__link:first-of-type {
+    margin-top: 159px;
+}
+
+.SlideMenu__link:last-of-type {
+    margin-bottom: auto;
+}
+
+.SlideMenu__profile-group {
+    margin: 0 auto;
+    margin-bottom: 92px;
+    max-height: 30px;
+}
+
+.SlideMenu__link_active {
+    text-decoration: underline;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
+}
+
+.SlideMenu__profile-link {
+    text-decoration: none;
+    vertical-align: middle;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: var(--black-text);
+    margin-right: 13px;
+    transition: opacity 0.2s ease-in;
+}
+
+.SlideMenu__profile-link:hover {
+    opacity: 0.6;
+}
+
+.SlideMenu__profile-icon {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    background: url(../../images/profile_icon.svg);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-color: #F9F9F9;
+}
+
+.SlideMenu__close-button {
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 23px;
+    right: 23px;
+    background-color: transparent;
+    background-image: url(../../images/close.svg);;  
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: opacity 0.2s ease-in;
+}
+
+.SlideMenu__close-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 500px) {
+    .SlideMenuInner {
+        width: 320px;
+    }
+}

@@ -1,0 +1,134 @@
+.MoviesCard {
+  position: relative;
+  max-width: 360px;
+  border-radius: 6px;
+  list-style: none;
+  overflow: hidden;
+}
+
+.MoviesCard__image {
+  height: 200px;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  object-fit: cover; 
+  object-position: center;
+}
+
+.MoviesCard__save-button {
+  position: absolute;
+  background: #F9F9F9;
+  border-radius: 30px;
+  width: 71px;
+  height: 21px;
+  top: 14px;
+  right: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 9px;
+  text-align: center;
+  border: none;
+  color: #000000;
+  transition: opacity 0.2s ease-in;
+}
+
+.MoviesCard__save-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.MoviesCard__delete-button {
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  top: 14px;
+  right: 14px;
+  background-color: transparent;
+  background-image: url(../../images/d3.svg);;  
+  background-repeat: no-repeat;
+  background-size: contain;
+  align-self: center;
+  border: none;
+  transition: opacity 0.2s ease-in;
+}
+
+.MoviesCard__delete-button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.MoviesCard__saved-icon {
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  top: 14px;
+  right: 14px;
+  background-color: transparent;
+  background-image: url(../../images/save3.svg);;  
+  background-repeat: no-repeat;
+  background-size: contain;
+  align-self: center;
+  border: none;
+}
+
+.MoviesCard__saved-icon:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.MoviesCard__description {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 17px 0 17px;
+}
+
+.MoviesCard__title {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+}
+
+.MoviesCard__duration {
+  margin: 0;
+  width: 52px;
+  height: 14px;
+  padding-top: 4px;
+  background: #F9F9F9;
+  border-radius: 3px;  
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 10px;
+  text-align: center;
+  color: #A0A0A0;
+
+}
+
+@media screen and (max-width: 768px) {
+  .MoviesCard {
+   max-width: 339px;
+  }
+  .MoviesCard__description {
+    padding: 25px 0 0 0;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .MoviesCard {
+  }
+
+  .MoviesCard__title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .MoviesCard__description {
+    padding: 14px 0 0 0;
+  }
+
+}
