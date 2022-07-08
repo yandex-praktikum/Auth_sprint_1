@@ -48,7 +48,6 @@ app.register_blueprint(auth.auth_blueprint)
 app.register_blueprint(main.main_blueprint)
 
 
-
 user_cli = AppGroup("user")
 
 
@@ -57,6 +56,7 @@ user_cli = AppGroup("user")
 @click.argument("email")
 @click.argument("name")
 @click.argument("password")
+
 def create_user(login, email, name, password):
     user_dict = {}
     user_dict["login"] = login

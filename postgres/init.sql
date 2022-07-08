@@ -95,6 +95,7 @@ DROP TABLE IF EXISTS users.auth;
 CREATE TABLE IF NOT EXISTS users.auth (
     id uuid PRIMARY KEY,
     user_id uuid NOT NULL,
+    auth_type TEXT,
     user_agent TEXT NOT NULL,
     date_time timestamp with time zone
 );

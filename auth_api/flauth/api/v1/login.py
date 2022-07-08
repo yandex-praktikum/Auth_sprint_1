@@ -3,6 +3,7 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+import logging
 from http import HTTPStatus
 
 from flask import jsonify, request
@@ -56,7 +57,6 @@ def login_controller(user, user_agent, token_info=None):
         jsonify(access_token=access_token, refresh_token=refresh_token),
         HTTPStatus.OK,
     )
-
 
 
 @auth_blueprint.route("/login/<page>", methods=["GET"])

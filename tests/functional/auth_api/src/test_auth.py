@@ -42,6 +42,7 @@ async def test_signup(make_request):
     """Тестирование регистрации"""
 
     USERS[0]["login"] += str(time.time())
+    USERS[0]["email"] += str(time.time())
 
     response = await make_request(SERVICE, "POST", "signup", USERS[0])
 

@@ -9,15 +9,41 @@ servers:
   - url: http://localhost:5001/api/v1/
 
 paths:
+
+  /signup:
+    post:
+      tags: [SignUp]
+
+      operationId: auth.signup_post
+      summary: Create a new user
+
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Signup'
+
+      responses:
+        201:
+          description: Successful registration
+        409:
+          description: Login or E-mail already exists
+
   /login:
     post:
+      tags: [Login]
+
       operationId: auth.login_post
       summary: Return the access and refresh tokens
-      
-      parameters:
-        - $ref: '#/components/parameters/Login'
-        - $ref: '#/components/parameters/Password'
-    
+
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+
       responses:
         200:
           description: Succesuful returned tokens
@@ -25,19 +51,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Tokens'
-        400: 
+        400:
           description: Login does not exist
         401:
           description: A wrong password
-          
+
   /login/{page}:
     get:
+      tags: [Login]
+
       security:
         - AccessToken: []
 
       operationId: auth.info_get
       summary: Information about auth jwt is needed
-      
+
       parameters:
         - in: path
           name: page
@@ -45,60 +73,45 @@ paths:
           schema:
             type: integer
           description: Page for pagination
-      
+
       responses:
         200:
           description: Auth records
           content:
             application/json:
               schema:
-                $ref: '#/components/parameters/Login'
+                $ref: '#/components/schemas/AuthRecords'
         401:
           description: Wrong token
 
-  /signup:
-    post:
-      operationId: auth.signup_post
-      summary: Create a new user
-      
-      parameters:
-        - $ref: '#/components/parameters/Login'
-        - $ref: '#/components/parameters/Email'
-        - $ref: '#/components/parameters/Name'
-        - $ref: '#/components/parameters/Password'
-      
-      responses:
-        201:
-          description: Successful registration
-        409: 
-          description: Login or E-mail already exists
-  
   /refresh:
-    put:
+    post:
+      tags: [Login]
       security:
         - RefreshToken: []
-      
+
       operationId: auth.refresh_post
       summary: Check the refresh token from header, give new access and refresh token
-      
+
       responses:
         200:
           description: Return tokens
-          content: 
+          content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AythRecords'
+                $ref: '#/components/schemas/Tokens'
         401:
           description: Wrong token
 
   /logout:
     delete:
+      tags: [Login]
       security:
         - AccessToken: []
-      
+
       operationId: auth.logout
       summary: Clean tokens
-      
+
       responses:
         200:
           description: Access and refresh token delete
@@ -107,9 +120,11 @@ paths:
 
   /newlogin:
     put:
+      tags: [Chenge]
+
       operationId: auth.newlogin_post
       summary: Change login
-      
+
       parameters:
         - $ref: '#/components/parameters/Login'
         - $ref: '#/components/parameters/NewLogin'
@@ -125,6 +140,8 @@ paths:
 
   /user:
     put:
+      tags: [Chenge]
+
       operationId: auth.newpasswor_post
       summary: Change password
 
@@ -136,13 +153,13 @@ paths:
       responses:
         200:
           description: New password set
-        409: 
+        409:
           description: New login already exists
         404:
           description: Login dose not exist
         401:
           description: Wrong password
-          
+
 components:
   schemas:
     Tokens:
@@ -153,20 +170,57 @@ components:
         refresh_token:
           type: string
 
-    AythRecords:
+    AuthRecords:
       type: array
       items:
         type: object
         properties:
-          user_agent:
-            type: string
-            description: User agent
-            example: "Chrome"
           date_time:
             type: string
             format: date-time
             description: Event time
             example: "2015-07-07T15:49:51.230+02:00"
+          user_agent:
+            type: string
+            description: User agent
+            example: "Chrome"
+
+
+    Login:
+      type: object
+      properties:
+        login:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        password:
+          type: string
+
+    Signup:
+      type: object
+      properties:
+        login:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        email:
+          type: string
+        name:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        password:
+          type: string
+
+    NewLogin:
+      type: object
+      properties:
+        login:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        new_login:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        password:
+          type: string
+
 
   parameters:
     Login:
@@ -177,10 +231,10 @@ components:
         type: string
         pattern: "^[a-zA-Z0-9-]+$"
       required: true
-  
+
     Name:
-      name: login
-      description: User login
+      name: name
+      description: User name
       in: query
       schema:
         type: string
@@ -214,18 +268,18 @@ components:
 
     NewPassword:
       name: new_password
-      description: New user pasword
+      description: New user password
       in: query
       schema:
         type: string
       required: true
-      
+
   securitySchemes:
     AccessToken:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
     RefreshToken:
       type: http
       scheme: bearer

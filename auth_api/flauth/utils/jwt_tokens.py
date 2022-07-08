@@ -17,8 +17,9 @@ def user_identity_lookup(user):
             "login": user["login"],
             "name": user["name"],
             "role": user["role"],
+            "email": user["email"]
         }
-    return {"id": user.id, "login": user.login, "name": user.name, "role": user.role}
+    return {"id": user.id, "login": user.login, "name": user.name, "role": user.role, "email": user.email}
 
 
 def get_access_token(user):

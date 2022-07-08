@@ -38,7 +38,7 @@ services:
     container_name: postgres_sprint6
     restart: always
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - .postgres_data/data:/var/lib/postgresql/data/
     environment:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
@@ -91,22 +91,22 @@ services:
       context: ./auth_api
       dockerfile: Dockerfile
     container_name: auth_api
-    expose: 
-      - 5001
-    #ports:
-    #  - 5001:5001
+    #expose: 
+    #  - 5001
+    ports:
+      - 5001:5001
     env_file:
       - .env
-#      
-#  swagger_ui_auth:
-#   image: swaggerapi/swagger-ui
-#   container_name: swagger_ui_authcontainer
-#   ports:
-#      - 8080:8080
-#   volumes:
-#      - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
-#   environment:
-#      API_URL: doc/swagger.yaml
+      
+  swagger_ui_auth:
+   image: swaggerapi/swagger-ui
+   container_name: swagger_ui_authcontainer
+   ports:
+      - 8080:8080
+   volumes:
+      - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
+   environment:
+      API_URL: doc/swagger.yaml
   
   role_api:
     build:

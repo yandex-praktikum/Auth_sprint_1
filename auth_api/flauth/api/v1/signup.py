@@ -3,6 +3,7 @@
 # @created: 27.06.2022
 # @author: sprint6_team
 
+import logging
 from http import HTTPStatus
 
 from flask import request
@@ -10,6 +11,7 @@ from flask import request
 from db.user import get_user, post_user
 from pages.auth import auth_blueprint
 from utils.passwords import hash_password
+
 
 
 @auth_blueprint.route("/signup", methods=["POST"])
