@@ -51,10 +51,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Tokens'
-        400:
-          description: Login does not exist
         401:
-          description: A wrong password
+          description: A wrong Login or Password
 
   /login/{page}:
     get:
