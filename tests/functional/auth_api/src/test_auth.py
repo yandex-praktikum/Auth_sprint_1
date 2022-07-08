@@ -110,6 +110,8 @@ async def test_login_get(make_request):
         "password": USERS[1]["password"],
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
+    assert response.status in [HTTPStatus.OK]
+
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
 
@@ -175,6 +177,8 @@ async def test_logout(make_request):
         "password": USERS[0]["password"],
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
+    assert response.status in [HTTPStatus.OK]
+
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
 
@@ -192,6 +196,7 @@ async def test_logout_refresh(make_request):
         "password": USERS[0]["password"],
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
+    assert response.status in [HTTPStatus.OK]
     access_token = response.body["access_token"]
     refresh_token = response.body["refresh_token"]
     headers = {"Authorization": "Bearer " + access_token}
@@ -212,6 +217,7 @@ async def test_logout_login_info(make_request):
         "password": USERS[0]["password"],
     }
     response = await make_request(SERVICE, "POST", "login", login_info)
+    assert response.status in [HTTPStatus.OK]
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
     response = await make_request(SERVICE, "DELETE", "logout", headers=headers)
@@ -229,6 +235,7 @@ async def test_admin_user(make_request):
     }
 
     response = await make_request(SERVICE, "POST", "login", ADMIN_USER)
+    assert response.status in [HTTPStatus.OK]
     access_token = response.body["access_token"]
     headers = {"Authorization": "Bearer " + access_token}
 

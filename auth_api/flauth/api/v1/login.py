@@ -54,7 +54,8 @@ def login_controller(user, user_agent, token_info=None):
     post_auth_record(auth_dict)
 
     return (
-        jsonify(access_token=access_token, refresh_token=refresh_token),
+        jsonify({"access_token": access_token, 
+                "refresh_token": refresh_token}),
         HTTPStatus.OK,
     )
 

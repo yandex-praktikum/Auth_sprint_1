@@ -1,5 +1,9 @@
 BEGIN;
 
+DROP TABLE IF EXISTS roles.roles CASCADE; 
+DROP TABLE IF EXISTS roles.user_role CASCADE;
+
+
 CREATE TABLE IF NOT EXISTS roles.roles (
     id UUID NOT NULL, 
     role VARCHAR NOT NULL, 

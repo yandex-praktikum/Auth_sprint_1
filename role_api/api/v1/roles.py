@@ -16,4 +16,9 @@ from views.role import role_blueprint
 @jwt_required()
 def get_roles():
     roles = Role.query.all()
+    roles = [{"id": role.id,
+              "role": role.role,
+              "description": role.description,
+              "rule": role.rule,
+             } for role in roles]
     return jsonify(roles), HTTPStatus.OK
