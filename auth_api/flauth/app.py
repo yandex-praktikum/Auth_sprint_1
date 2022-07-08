@@ -35,7 +35,6 @@ app.config["DEBUG"] = settings.debug
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
-
 app.app_context().push()
 
 init_db(app)

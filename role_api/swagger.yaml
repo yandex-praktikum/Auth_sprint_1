@@ -67,15 +67,18 @@ paths:
   
       parameters:
         - $ref: '#/components/parameters/RoleId'
-        - $ref: '#/components/parameters/Role'
-        - $ref: '#/components/parameters/Description'
-        - $ref: '#/components/parameters/Rule'
+        
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewRole'
+        
 
       responses:
         200:
-          description: Role updated
-        201:
-          description: New role created
+          description: Role updated or created
         401:
           description: Unauthorized request
 
@@ -109,9 +112,12 @@ paths:
       operationId: app.check_role
       summary: Check that user has role
 
-      parameters:
-        - $ref: '#/components/parameters/UserIdQ'
-        - $ref: '#/components/parameters/RoleIdQ'
+      #requestBody:
+      #  required: true
+      #  content:
+      #    multipart/form-data:
+      #      schema:
+      #        $ref: '#/components/schemas/CheckRole'
 
       responses:
         200:
@@ -176,7 +182,37 @@ components:
           description: Creation time
           example: "2015-07-07T15:49:51.230+02:00"
           readOnly: true
-
+    
+    NewRole:
+      type: object
+      required:
+        - role
+        - rule
+      properties:
+        role:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        description:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+        rule:
+          type: string
+          
+    CheckRole:
+      type: object
+      required:
+        - user_id
+        - role_id
+      properties:
+        user_id:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+          example: "123"
+        role_id:
+          type: string
+          pattern: "^[a-zA-Z0-9-]+$"
+          example: "123"
+    
   parameters:
     RoleId:
       name: role_id

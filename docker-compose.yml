@@ -69,11 +69,13 @@ services:
       - 9200
     depends_on:
       - search_api
+  
   redis:
     image: redis:6.0
     container_name: redis
     expose:
       - 6379
+  
   etl:
     build:
       context: ./etl
@@ -86,13 +88,12 @@ services:
       - search_api
     env_file:
       - .env
+      
   auth_api:
     build:
       context: ./auth_api
       dockerfile: Dockerfile
     container_name: auth_api
-    #expose: 
-    #  - 5001
     ports:
       - 5001:5001
     env_file:
@@ -103,31 +104,20 @@ services:
    ports:
       - 8080:8080
    volumes:
-      - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
+      - ./auth_api/flauth/swagger.yaml:/usr/share/nginx/html/doc/swagger_auth.yaml
+      - ./role_api/swagger.yaml:/usr/share/nginx/html/doc/swagger_role.yaml
    environment:
-      API_URL: doc/swagger.yaml
+      API_URL: doc/swagger_auth.yaml
       
   role_api:
     build:
       context: ./role_api
       dockerfile: Dockerfile
     container_name: role_api
-    #expose: 
-    #  - 5002
     ports:
       - 5002:5002
     env_file:
       - .env
-      
-  swagger_ui_role:
-   image: swaggerapi/swagger-ui
-   container_name: swagger_ui_role
-   ports:
-      - 8082:8082
-   volumes:
-      - ./role_api/swagger.yaml:/usr/share/nginx/html/doc/swagger.yaml
-   environment:
-      API_URL: doc/swagger.yaml
   
   tests:
     build:

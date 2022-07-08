@@ -14,8 +14,10 @@ from flask_migrate import Migrate
 from settings import settings
 from utils.jwt_tokens import jwt
 from views import main, role
+from flask_cors import CORS
 
 app = Flask(__name__, template_folder="templates")
+CORS(app)
 
 app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
 app.config["HOST"] = settings.role_app_host
