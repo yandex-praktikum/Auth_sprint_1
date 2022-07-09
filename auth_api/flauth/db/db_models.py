@@ -11,9 +11,25 @@ from sqlalchemy.dialects.postgresql import UUID
 from db.db import db
 
 
+def alfabet_partition(target, connection, **kw) -> None:
+    """ creating partition by users"""
+    alphabet = sorted(list(string.ascii_letters + string.digits))
+    command = """CREATE TABLE "users_{letter}" PARTITION OF "users" FOR VALUES FROM ("{letter}") TO ("{next_letter}")"""
+
+    for i in range(len(alphabet) - 1):
+        connection.execute(command.format(letter=alphabet[i], next_letter=alphabet[i + 1]))
+    connection.execute(command.format(letter=alphabet[i + 1], next_letter='MAXVALUE'))
+
+
 class User(db.Model):
     __tablename__ = "users"
-    __table_args__ = {"schema": "users"}
+    __table_args__ = (
+        {"schema": "users"},
+        {
+            "postgresql_partition_by": "RANGE(login)",
+            "listeners": [("after_create", alfabet_partition)]
+        },
+    )
 
     id = Column(
         UUID(as_uuid=True),
@@ -58,7 +74,9 @@ class SocialAccount(db.Model):
 
 class AuthRecord(db.Model):
     __tablename__ = "auth"
-    __table_args__ = {"schema": "users"}
+    __table_args__ = {
+        "schema": "users"
+    }
 
     id = Column(
         UUID(as_uuid=True),
